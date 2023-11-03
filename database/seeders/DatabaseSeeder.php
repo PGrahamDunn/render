@@ -4,6 +4,9 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\User;
+use App\Models\Role;
+use App\Models\Role_User;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,5 +21,14 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+        User::truncate();
+        Role::truncate();
+//        Role_User::trunncate();
+
+        $this->call([
+            UserSeeder::class,
+            RoleSeeder::class,
+            role_UserSeeder::class
+        ]);   
     }
 }
