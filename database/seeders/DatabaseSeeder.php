@@ -6,7 +6,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Role;
-use App\Models\Role_User;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
         // ]);
         User::truncate();
         Role::truncate();
-//        Role_User::trunncate();
+        DB::table('role_User')->truncate();
 
         $this->call([
             UserSeeder::class,
