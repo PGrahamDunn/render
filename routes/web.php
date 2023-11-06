@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\VersionNoteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,13 +24,18 @@ Route::get('/', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+/*
 Route::get('/version', function () {
     return view('version');
 })->middleware(['auth', 'verified'])->name('version');
+*/
+
+Route::get('/version', [VersionNoteController::class, 'index'])->name('version');
 
 Route::get('/help', function () {
     return view('help');
 })->middleware(['auth', 'verified'])->name('help');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

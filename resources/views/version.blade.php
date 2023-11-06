@@ -3,39 +3,35 @@
         <x-header />
     </x-slot>
 
+    @php
+        $versionid = -1;
+        $typeid = -1;
+    @endphp
+
     <div class="p-4">
-    @for ($j = 0 ; $j < 3 ; $j++)
-        <div class="p-2">
-            <span class="font-bold text-lg"> Version 1.3.2 - {{ now() }}</span>
-            <div class=" ml-2 font-bold">
-                <span>New</span>
-                @for ($k = 0 ; $k < 5 ; $k++)
-                <div class="ml-4 font-normal">
-                    <span>- added a field to selectoradded a field to selectoradded a field to selectoradded a field to selectoradded a field to selectoradded a field to selectoradded a field to selectoradded a field to selectoradded</span>
-                </div>
-                @endfor
+    @foreach ($version_notes as $version_note)
+        <div>
+            @if ($version_note->version_id <> $versionid)
+            <div class="mt-4">
+            <span class="font-bold text-lg">version {{ $version_note->version->version_number }}  {{ $version_note->version->version_date }}</span>
             </div>
-
-            <div class=" ml-2 font-bold">
-                <span>Improved</span>
-                @for ($k = 0 ; $k < 3 ; $k++)
-                <div class="ml-4 font-normal">
-                    <span>- added a field to selector</span>
+            @php
+                $versionid = $version_note->version_id;
+            @endphp
+            @endif
+            <div class=" ml-4 font-bold">
+                @if ($version_note->version_type_id <> $typeid)
+                <span>{{ $version_note->version_type->name }}</span>
+                @php
+                    $typeid = $version_note->version_type_id;
+                @endphp
+                @endif
+                <div class="ml-8 font-normal">
+                    <span>- {{ $version_note->description }}</span>
                 </div>
-                @endfor
             </div>
-
-            <div class=" ml-2 font-bold">
-                <span>Fixed</span>
-                @for ($k = 0 ; $k < 4 ; $k++)
-                <div class="ml-4 font-normal">
-                    <span>- added a field to selector</span>
-                </div>
-                @endfor
-            </div>
-
         </div>
-        @endfor
+    @endforeach
     </div>
 
 

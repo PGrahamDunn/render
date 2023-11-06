@@ -6,7 +6,7 @@
                     <img class="w-6 h-6 text-gray-400" src={{$menu_icon}} alt="icon"></img>
                 </div>
                 <div> <!-- menu item -->
-                    <span class="text-md text-gray-300">{{ $menu_texts[0] }}</span>
+                    <span class="text-md">{{ $menu_texts[0] }}</span>
                 </div>
             </div>
             <div class="flex space-x-1 items-center"> <!-- right container -->
@@ -35,7 +35,7 @@
                         <div class="w-6 h-6"></div>
                     </div>
                     <div> <!-- menu item -->
-                        <span class="text-md ">{{ $menutext }}</span>
+                        <span class="text-md">{{ $menutext }}</span>
                     </div>
                 </div>
                 <div class="flex space-x-1 items-center"> <!-- right container -->
