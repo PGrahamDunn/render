@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Menu;
 
 use Livewire\Component;
 
@@ -13,6 +13,6 @@ class MenuItem extends Component
     
     public function render()
     {
-        return view('livewire.menu-item');
+        return view('livewire.menu.menu-item');
     }
 }

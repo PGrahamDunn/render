@@ -47,7 +47,7 @@ class User extends Authenticatable
 
     public function roles(): BelongsToMany
     {
-        return $this->belongsToMany(Role::class);
+        return $this->belongsToMany(Role::class)->orderby('role_id');
     }    
 
     public function isAdmin()
@@ -58,6 +58,11 @@ class User extends Authenticatable
     public function isUser()
     {
         return $this->roles->contains('name','=','User');
+    }
+
+    public function containsRole(string $roleName)
+    {
+        return $this->roles->contains('name','=', $roleName);
     }
 
     public function isRole_3()

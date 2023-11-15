@@ -3,7 +3,7 @@
         <div class="shrink-0 flex items-center">
             
                 <x-application-logo class=" h-6 w-auto fill-current text-gray-800" />         
-
+                <span class="ml-4 text-lg font-bold"> Route: {{Request::route()->getName() }}</span>    
             
         </div>
     </div>

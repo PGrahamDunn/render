@@ -15,8 +15,8 @@
             <!-- nav -->
             <div class="">
             <nav>
-                @livewire('menu-item',['menu_pill' => 0, 'menu_text' => 'Dashboard','menu_link' => '/','menu_icon' => '/icons/menu-flag.svg'])
-                @livewire('menu-sub-item',['menu_texts' => ['Administration','Users'],'menu_links' => ['#','/users'], 'menu_pills' => [0,0],'menu_icon' => '/icons/menu-flag.svg'])
+                @livewire('menu.menu-item',['menu_pill' => 0, 'menu_text' => 'Dashboard','menu_link' => '/','menu_icon' => '/icons/menu-flag.svg'])
+                @livewire('menu.menu-sub-item',['menu_texts' => ['Administration','Users'],'menu_links' => ['#','/users'], 'menu_pills' => [0,0],'menu_icon' => '/icons/menu-flag.svg'])
             </nav>
             </div>
         </div>

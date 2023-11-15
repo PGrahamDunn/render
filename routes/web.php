@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VersionNoteController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,18 +25,33 @@ Route::get('/', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-/*
-Route::get('/version', function () {
-    return view('version');
-})->middleware(['auth', 'verified'])->name('version');
-*/
+/* Users */
+
+Route::get('/users', function () {
+    return view('Users.index');
+})->middleware(['auth', 'verified'])->name('users.index');
+
+Route::get('/users/create', function () {
+    return view('Users.create');
+})->middleware(['auth', 'verified'])->name('users.create');
+
+Route::post('/users', [UserController::class, 'store'])->middleware(['auth', 'verified'])->name('users.store');
+
+Route::get('/users/{user}/edit', [UserController::class, 'edit'])->middleware(['auth', 'verified'])->name('users.edit');
+
+Route::put('/users/{user}', [UserController::class, 'update'])->middleware(['auth', 'verified'])->name('users.update');
+
+/* Version */
 
 Route::get('/version', [VersionNoteController::class, 'index'])->name('version');
+
+/* Help */
 
 Route::get('/help', function () {
     return view('help');
 })->middleware(['auth', 'verified'])->name('help');
 
+/* authentication */
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
