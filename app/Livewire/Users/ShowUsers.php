@@ -27,7 +27,7 @@ class ShowUsers extends Component
         $this->sortField = $field;
     }
 
-    public function search()
+    public function resetsearch()
     {
         $this->resetPage();
     }
