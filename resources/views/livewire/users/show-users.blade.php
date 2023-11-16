@@ -1,6 +1,6 @@
-<div class="flex flex-col mt-8">
-    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-        <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+<div class="flex flex-col mt-2">
+    <div class="overflow-x-auto">
+        <div class="py-2 align-middle inline-block min-w-full sm:px-2 lg:px-4">
             <div class="flex items-center justify-between">
                 <div class="max-w-lg w-full lg:max-w-xs">
                     <label for="search" class="sr-only">Search</label>

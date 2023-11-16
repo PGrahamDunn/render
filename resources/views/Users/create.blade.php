@@ -46,6 +46,7 @@
 
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
+            <x-cancel-button  :href="route('users.index')">{{ __('Cancel') }}</x-cancel-button>
 
         </div>
         </div>  

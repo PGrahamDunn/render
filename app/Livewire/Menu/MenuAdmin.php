@@ -5,16 +5,15 @@ namespace App\Livewire\Menu;
 use Livewire\Component;
 use Illuminate\Support\Facades\Route;
 
-class MenuSubItem extends Component
+class MenuAdmin extends Component
 {
-
     public bool $menu_expanded = false;
-    public string $menu_text = 'Temp';
+    public string $menu_text = 'Administration';
     public array $menu_sub_texts = ['Users'];
     public array $menu_sub_links = ['/users'];
     public int $menu_pill = 0;
     public array $menu_sub_pills = [0];
-    public array $routes = ['users.index'];
+    public array $routes = ['users.index','users.create','users.edit'];
 
     public function mount()
     {
@@ -33,6 +32,6 @@ class MenuSubItem extends Component
 
     public function render()
     {
-        return view('livewire.menu.menu-sub-item');
+        return view('livewire.menu.menu-admin');
     }
 }

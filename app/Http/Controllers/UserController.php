@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use App\Models\Role;
 use App\Models\Role_User;
+use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
 {
@@ -54,8 +55,16 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        $roles = Role::all();
-        return view('users.edit',['user' => $user, 'roles' => $roles]);
+        if (Gate::any(['admin']))
+        {
+            // The user can update or delete the user...
+            $roles = Role::all();
+            return view('users.edit',['user' => $user, 'roles' => $roles]);
+        }
+        else
+        {
+            abort(403);
+        }
     }
 
     /**

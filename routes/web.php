@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VersionNoteController;
 use App\Http\Controllers\UserController;
+use Illuminate\Auth\Middleware\Authorize;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,11 +16,8 @@ use App\Http\Controllers\UserController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-/*
-Route::get('/', function () {
-    return view('dashboard');
-});
-*/
+
+/* dashboard */ 
 
 Route::get('/', function () {
     return view('dashboard');
@@ -29,17 +27,17 @@ Route::get('/', function () {
 
 Route::get('/users', function () {
     return view('Users.index');
-})->middleware(['auth', 'verified'])->name('users.index');
+})->middleware(['auth', 'verified'])->name('users.index')->can('admin');
 
 Route::get('/users/create', function () {
     return view('Users.create');
-})->middleware(['auth', 'verified'])->name('users.create');
+})->middleware(['auth', 'verified'])->name('users.create')->can('admin');
 
-Route::post('/users', [UserController::class, 'store'])->middleware(['auth', 'verified'])->name('users.store');
+Route::post('/users', [UserController::class, 'store'])->middleware(['auth', 'verified'])->name('users.store')->can('admin');
 
-Route::get('/users/{user}/edit', [UserController::class, 'edit'])->middleware(['auth', 'verified'])->name('users.edit');
+Route::get('/users/{user}/edit', [UserController::class, 'edit'])->middleware(['auth', 'verified'])->name('users.edit')->can('admin');
 
-Route::put('/users/{user}', [UserController::class, 'update'])->middleware(['auth', 'verified'])->name('users.update');
+Route::put('/users/{user}', [UserController::class, 'update'])->middleware(['auth', 'verified'])->name('users.update')->can('admin');
 
 /* Version */
 

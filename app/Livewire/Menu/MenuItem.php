@@ -6,10 +6,9 @@ use Livewire\Component;
 
 class MenuItem extends Component
 {
-    public string $menu_icon = '';
     public int $menu_pill = 0;
-    public string $menu_text = '';
-    public string $menu_link = '';
+    public string $menu_text = 'Temp';
+    public string $menu_link = '#';
     
     public function render()
     {
