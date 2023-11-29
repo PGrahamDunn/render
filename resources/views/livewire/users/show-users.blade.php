@@ -32,7 +32,9 @@
                                 <div class="flex items-center">
                                     <button wire:click="sortBy('name')" class="text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Name</button>
                                     @if ($sortField != 'name')
-                                    <span></span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 ml-2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                                    </svg>
                                     @elseif ($sortAsc)
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 ml-2">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
@@ -50,7 +52,9 @@
                             <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                                 Roles
                             </th>
-                            <th class="px-6 py-3 bg-gray-50"></th>
+                            <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                Action
+                            </th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
@@ -73,8 +77,12 @@
                                 <span class="text-sm leading-5 text-gray-900">{{ $role->name }}</span>
                                 @endforeach
                             </td>
-                            <td class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
-                                <a href="users/{{ $user->id }}/edit" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                            <td class="px-6 py-2 whitespace-no-wrap">
+                                <div class="text-sm leading-5 text-gray-900 truncate flex space-x-4 items-center">
+                                    <a href="users/{{ $user->id }}/edit">
+                                        <x-action-edit />
+                                    </a>
+                                </div>
                             </td>
                         </tr>
                         @endforeach
