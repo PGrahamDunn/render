@@ -46,7 +46,7 @@
                                     @endif
                                 </div>
                             </th>
-                            <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                            <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider hidden xl:table-cell">
                                 Email
                             </th>
                             <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
@@ -66,7 +66,7 @@
                             <td class="px-6 py-4 whitespace-no-wrap">
                                 <div class="text-sm leading-5 text-gray-900">{{ $user->name }}</div>
                             </td>
-                            <td class="px-6 py-4 whitespace-no-wrap">
+                            <td class="px-6 py-4 whitespace-no-wrap hidden xl:table-cell">
                                 <div class="text-sm leading-5 text-gray-900 truncate">{{ $user->email }}</div>
                             </td>
                             <td class="px-6 py-4 whitespace-no-wrap">
