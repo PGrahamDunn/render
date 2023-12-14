@@ -1,0 +1,1 @@
+<span class="inline-flex px-2 text-xs font-semibold leading-5 text-orange-800 bg-orange-200 rounded-full border border-orange-400"> {{ $slot }} </span>

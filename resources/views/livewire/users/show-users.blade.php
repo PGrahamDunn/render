@@ -80,7 +80,7 @@
                             <td class="px-6 py-2 whitespace-no-wrap">
                                 <div class="text-sm leading-5 text-gray-900 truncate flex space-x-4 items-center">
                                     <a href="users/{{ $user->id }}/edit">
-                                        <x-action-edit />
+                                        <x-actions.edit />
                                     </a>
                                 </div>
                             </td>
