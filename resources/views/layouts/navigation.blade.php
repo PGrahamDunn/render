@@ -3,7 +3,15 @@
         <div>
             <!-- logo -->
             <div class="h-18  border-b border-gray-600">
-            <div class="p-2 {{ App::environment('production') ? 'bg-gray-600' : 'bg-green-600' }} m-2 rounded-md">
+            @if (App::environment('production'))
+            <div class="p-2 bg-gradient-to-r from-gray-600 to-zinc-500 m-2 rounded-md">
+            @elseif (config('app.env') =='uat')
+            <div class="p-2 bg-gradient-to-r from-blue-600 to-sky-500 m-2 rounded-md">
+            @elseif (config('app.env') =='dev')
+            <div class="p-2 bg-gradient-to-r from-green-600 to-lime-500 m-2 rounded-md">
+            @else
+            <div class="p-2 bg-gradient-to-r from-amber-600 to-yellow-500 m-2 rounded-md">
+            @endif
                     <a class="flex items-center space-x-2" href="">
                         <svg class="w-8 h-8 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12.75 15l3-3m0 0l-3-3m3 3h-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
