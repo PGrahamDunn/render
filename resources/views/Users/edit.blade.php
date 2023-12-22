@@ -2,5 +2,5 @@
     <x-slot name="header">
         <x-header />
     </x-slot>
-    @livewire('users.EditUser',['user' => $user, 'roles' => $roles])
+    @livewire('users.Edit',['user' => $user, 'roles' => $roles])
 </x-app-layout>

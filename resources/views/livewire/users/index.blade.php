@@ -1,7 +1,7 @@
-<div class="flex flex-col mt-2">
+<div class="flex flex-col">
     <div class="overflow-x-auto">
-        <div class="py-2 align-middle inline-block min-w-full sm:px-2 lg:px-4">
-            <div class="flex items-center justify-between">
+        <div class="align-middle inline-block min-w-full">
+            <div class="flex items-center justify-between mt-1">
                 <div class="max-w-lg w-full lg:max-w-xs">
                     <label for="search" class="sr-only">Search</label>
                     <div class="flex space-x-1">
@@ -10,7 +10,7 @@
                                 <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
                             </svg>
                         </div>
-                        <input wire:model.live="search" wire:keydown="resetsearch" id="search" class="block w-full pl-3 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:border-blue-300 focus:shadow-outline-blue sm:text-sm transition duration-150 ease-in-out" placeholder="Search" type="search">
+                        <x-text-input wire:model.live="search" wire:keydown="resetsearch" id="search" name="search" type="search" class=" block w-full" placeholder="Search" />
                     </div>
                 </div>
                 <div class="flex items-start">

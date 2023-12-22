@@ -6,7 +6,7 @@ use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class ShowUsers extends Component
+class Index extends Component
 {
     use WithPagination;
 
@@ -34,7 +34,7 @@ class ShowUsers extends Component
     
     public function render()
     {
-        return view('livewire.users.show-users', [
+        return view('livewire.users.index', [
 //            'users' => User::where('name', 'like', '%'. $this->search . '%')->paginate(10),
 //            'users' => User::where('name', 'like', '%'. $this->search . '%')->orwhere('email', 'like', '%'. $this->search . '%')->paginate(10),
             'users' => User::where('name', 'like', '%'. $this->search . '%')

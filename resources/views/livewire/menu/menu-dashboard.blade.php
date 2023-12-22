@@ -1,6 +1,6 @@
 <div>
     <div>
-        <a href="{{ $menu_link }}">
+        <a href="{{ route($menu_link) }}">
             <div class="py-2 px-2 flex justify-between hover:bg-gray-800/30 hover:text-white rounded-md m-2">
                 <div class="flex space-x-2 items-center">
                     <div>

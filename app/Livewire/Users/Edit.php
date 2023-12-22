@@ -6,13 +6,13 @@ use Livewire\Component;
 use App\Models\User;
 use App\Models\Role;
 
-class EditUser extends Component
+class Edit extends Component
 {
     public User $user;
     public $roles;
 
     public function render()
     {
-        return view('livewire.users.edit-user');
+        return view('livewire.users.edit');
     }
 }

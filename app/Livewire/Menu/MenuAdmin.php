@@ -10,7 +10,7 @@ class MenuAdmin extends Component
     public bool $menu_expanded = false;
     public string $menu_text = 'Administration';
     public array $menu_sub_texts = ['Users'];
-    public array $menu_sub_links = ['/users'];
+    public array $menu_sub_links = ['users.index'];
     public int $menu_pill = 0;
     public array $menu_sub_pills = [0];
     public array $routes = ['users.index','users.create','users.edit'];

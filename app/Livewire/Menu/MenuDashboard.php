@@ -8,7 +8,7 @@ class MenuDashboard extends Component
 {
     public int $menu_pill = 0;
     public string $menu_text = 'Dashboard';
-    public string $menu_link = '/';
+    public string $menu_link = 'dashboard';
 
 
     public function render()

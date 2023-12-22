@@ -2,17 +2,22 @@
     <div class="flex ">
         <div class="shrink-0 flex items-center">
 
+            @if (config('app.env') =='dev')
             <span class="ml-4 text-lg font-bold"> Route: {{Request::route()->getName() }}</span>
+            @endif
 
         </div>
     </div>
 
     <div class="hidden sm:flex sm:items-center sm:ml-6 space-x-2 mr-2">
-        <a href="{{ route('help') }}">
-            <x-icons.help-icon class="w-8 h-8 stroke-gray-500" />
+        <a href="{{ route('dashboard') }}" title="Notifications">
+            <x-icons.notifications class="w-8 h-8 stroke-gray-500" />
         </a>
-        <a href="{{ route('version') }}">
-            <x-icons.version-icon class="w-8 h-8 stroke-gray-500" />
+        <a href="{{ route('help') }}" title="Help">
+            <x-icons.help class="w-8 h-8 stroke-gray-500" />
+        </a>
+        <a href="{{ route('version') }}" title="Version">
+            <x-icons.version class="w-8 h-8 stroke-gray-500" />
         </a>
         <x-dropdown align="right" width="48">
             <x-slot name="trigger">

@@ -37,7 +37,7 @@
     @if ($menu_expanded)
     @foreach ($menu_sub_texts as $menutext)
     <div class="bg-gray-600/60 px-2 py-1">
-        <a href="{{ $menu_sub_links[$loop->index] }}">
+        <a href="{{ route($menu_sub_links[$loop->index]) }}">
             <div class="py-2 px-2 flex justify-between hover:bg-gray-800/30 hover:text-white rounded-md"> <!-- hover boarder -->
                 <div class="flex space-x-2 items-center"> <!-- left container -->
                     <div> <!-- menu icon -->
