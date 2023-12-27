@@ -4,7 +4,7 @@ namespace App\Livewire\Menu;
 
 use Livewire\Component;
 
-class MenuDashboard extends Component
+class Dashboard extends Component
 {
     public int $menu_pill = 0;
     public string $menu_text = 'Dashboard';
@@ -13,6 +13,6 @@ class MenuDashboard extends Component
 
     public function render()
     {
-        return view('livewire.menu.menu-dashboard');
+        return view('livewire.menu.dashboard');
     }
 }

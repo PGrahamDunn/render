@@ -23,9 +23,9 @@
             <!-- nav -->
             <div class="">
             <nav>
-                @livewire('menu.menu-dashboard',['menu_pill' => 0])
+                @livewire('menu.dashboard',['menu_pill' => 0])
                 @can('admin')
-                    @livewire('menu.menu-admin')
+                    @livewire('menu.admin')
                 @endcan
                 <!--livewire('menu.menu-admin',['menu_pill' => 0,'menu_sub_pills' => [0]])-->
                 <!--livewire('menu.menu-sub-item',['menu_texts' => ['Administration','Users'],'menu_links' => ['#','/users'],'menu_pills' => [0,0],'menu_icon' => '/icons/menu-flag.svg'])-->

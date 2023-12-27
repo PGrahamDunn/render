@@ -5,7 +5,7 @@ namespace App\Livewire\Menu;
 use Livewire\Component;
 use Illuminate\Support\Facades\Route;
 
-class MenuAdmin extends Component
+class Admin extends Component
 {
     public bool $menu_expanded = false;
     public string $menu_text = 'Administration';
@@ -32,6 +32,6 @@ class MenuAdmin extends Component
 
     public function render()
     {
-        return view('livewire.menu.menu-admin');
+        return view('livewire.menu.admin');
     }
 }
