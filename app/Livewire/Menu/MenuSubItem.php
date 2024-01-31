@@ -3,28 +3,17 @@
 namespace App\Livewire\Menu;
 
 use Livewire\Component;
-use Illuminate\Support\Facades\Route;
+use Livewire\Attributes\Session;
 
 class MenuSubItem extends Component
 {
-
+    #[Session]
     public bool $menu_expanded = false;
     public string $menu_text = 'Temp';
     public array $menu_sub_texts = ['Users'];
-    public array $menu_sub_links = ['/users'];
+    public array $menu_sub_links = ['Users.index'];
     public int $menu_pill = 0;
     public array $menu_sub_pills = [0];
-    public array $routes = ['users.index'];
-
-    public function mount()
-    {
-        $name = Route::currentRouteName();
-
-        if (in_array($name, $this->routes))
-        {
-            $this->menu_expanded = true;
-        }
-    }
 
     public function menu_open()
     {

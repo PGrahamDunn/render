@@ -1,1 +1,1 @@
-<img src="/logo.webp" alt="">
+<img src="/logo.png" alt="P Graham Dunn">

@@ -185,4 +185,17 @@ return [
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 
+    /*
+    |--------------------------------------------------------------------------
+    | PGD Aliases
+    |--------------------------------------------------------------------------
+    |
+    | PGD configuration options
+    |  APP_ENV options : local, staging, production
+    |  PGD_ENV options : dev, uat, prod
+    |
+    */
+
+    'pgd_env' => env('PGD_ENV'),
+    
 ];
