@@ -22,27 +22,19 @@
             <div class=" w-48">
                 <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
             </div>
-            @if (App::environment('production'))
-            <div class="border-2 rounded-lg py-3 px-6 border-gray-700 bg-gradient-to-r from-gray-600 to-zinc-500 m-2 flex items-center space-x-2">
-                @elseif (config('app.env') =='staging')
-                <div class="border-2 rounded-lg py-3 px-6 border-gray-700 bg-gradient-to-r from-blue-600 to-sky-500 m-2 flex items-center space-x-2">
-                    @elseif (config('app.env') =='local')
-                    <div class="border-2 rounded-lg py-3 px-6 border-gray-700 bg-gradient-to-r from-green-600 to-lime-500 m-2 flex items-center space-x-2">
-                        @else
-                        <div class="border-2 rounded-lg py-3 px-6 border-gray-700 bg-gradient-to-r from-amber-600 to-yellow-500 m-2 flex items-center space-x-2">
-                            @endif
-                            <x-application-icon class="text-white h-8 w-8" />
-                            <span class="text-4xl font-bold text-white">{{ config('app.name') }}</span>
-                            @if (!App::environment('production'))
-                            <span class=" border border-white text-3xl text-white rounded-md px-2">{{ strtoupper(config('app.pgd_env')) }}</span>
-                            @endif
-                        </div>
-                    </div>
+            <div class="border-2 rounded-lg py-3 px-6 border-gray-700 bg-gradient-to-r from-fuchsia-600 to-purple-400 m-2 flex items-center space-x-2">
+                <x-application-icon class="text-white h-8 w-8" />
+                <span class="text-4xl font-bold text-white">{{ config('app.name') }}</span>
+                @if (!App::environment('production'))
+                <div class="outline outline-1 outline-black border-2 border-yellow-400 text-2xl text-yellow-400 rounded-md px-2 bg-gray-700">{{ strtoupper(config('app.pgd_env')) }}</div>
+                @endif
+            </div>
+        </div>
 
-                    <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
-                        {{ $slot }}
-                    </div>
-                </div>
+        <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
+            {{ $slot }}
+        </div>
+    </div>
 </body>
 
 </html>

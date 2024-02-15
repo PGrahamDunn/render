@@ -1,7 +1,6 @@
 <div class="flex justify-between">
     <div class="flex ">
         <div class="shrink-0 flex items-center">
-
             @if (config('app.env') =='local')
             <span class="ml-4 text-lg font-bold"> Route: {{Request::route()->getName() }}</span>
             @endif
