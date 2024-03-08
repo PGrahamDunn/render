@@ -197,5 +197,7 @@ return [
     */
 
     'pgd_env' => env('PGD_ENV'),
+    'pgd_users_api_endpoint' => env('PGD_USERS_API_ENDPOINT'),
+    'pgd_user_api_endpoint' => env('PGD_USER_API_ENDPOINT'),
     
 ];

@@ -19,28 +19,14 @@ class UserSeeder extends Seeder
             'name' => 'Jeremy Kratzer',
             'badge_id' => '1735',
             'email' => 'Jeremy.Kratzer@pgrahamdunn.com',
-            'password' => bcrypt('Lifthimup1'),
+            'password' => bcrypt('jeremy_1'),
         ]);
 
         DB::table('users')->insert([
-            'name' => 'John Smith',
+            'name' => 'Jerry Kuphal III',
             'badge_id' => '13',
             'email' => 'John.Smith@pgrahamdunn.com',
-            'password' => bcrypt('Lifthimup1'),
-        ]);
-
-        DB::table('users')->insert([
-            'name' => 'Brad Carpenter',
-            'badge_id' => '1418',
-            'email' => 'Brad.Carpenter@pgrahamdunn.com',
-            'password' => bcrypt('Lifthimup1'),
-        ]);
-
-        DB::table('users')->insert([
-            'name' => 'Franklin Geiser',
-            'badge_id' => '16',
-            'email' => 'Franklin@pgrahamdunn.com',
-            'password' => bcrypt('Lifthimup1'),
+            'password' => bcrypt('jerry_1'),
         ]);
 
     }

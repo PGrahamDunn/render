@@ -13,7 +13,8 @@
                         <x-text-input wire:model.live="search" wire:keydown="resetsearch" id="search" name="search" type="search" class=" block w-full" placeholder="Search" />
                     </div>
                 </div>
-                <div class="flex items-start">
+                <div class="flex items-start space-x-4">
+                    <x-button-main  wire:click="update_users">Update users</x-button-main>
                     <a href="{{ route('users.create') }}">
                         <x-button-main>Add User</x-button-main>
                     </a>
