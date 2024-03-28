@@ -36,6 +36,7 @@ class Index extends Component
 
     public function update_users()
     {
+        set_time_limit(120);
         $response = Http::get(config('app.pgd_users_api_endpoint'));
         $users = json_decode($response->body());
         foreach($users as $user)
