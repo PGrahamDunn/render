@@ -25,18 +25,10 @@ Route::get('/', function () {
 
 /* Users */
 
-Route::get('/users', function () {
-    return view('Users.index');
-})->middleware(['auth', 'verified'])->name('users.index')->can('admin');
-
-Route::get('/users/create', function () {
-    return view('Users.create');
-})->middleware(['auth', 'verified'])->name('users.create')->can('admin');
-
+Route::get('/users', [UserController::class, 'index'])->middleware(['auth', 'verified'])->name('users.index')->can('admin');
+Route::get('/users/create', [UserController::class, 'create'])->middleware(['auth', 'verified'])->name('users.create')->can('admin');
 Route::post('/users', [UserController::class, 'store'])->middleware(['auth', 'verified'])->name('users.store')->can('admin');
-
 Route::get('/users/{user}/edit', [UserController::class, 'edit'])->middleware(['auth', 'verified'])->name('users.edit')->can('admin');
-
 Route::put('/users/{user}', [UserController::class, 'update'])->middleware(['auth', 'verified'])->name('users.update')->can('admin');
 
 /* Version */
