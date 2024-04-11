@@ -197,7 +197,11 @@ return [
     */
 
     'pgd_env' => env('PGD_ENV'),
+    'pulse_key' => env('PULSE_API_KEY'),
+    'pulse_endpoint' => env('PULSE_ENDPOINT'),
     'pgd_users_api_endpoint' => env('PGD_USERS_API_ENDPOINT'),
     'pgd_user_api_endpoint' => env('PGD_USER_API_ENDPOINT'),
+    'pulse_endpoint' => env('PULSE_ENDPOINT'),
+    'c2_preview_env' => env('C2_PREVIEW_ENV'),
     
 ];

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PreviewController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VersionNoteController;
@@ -18,10 +19,15 @@ use Illuminate\Auth\Middleware\Authorize;
 */
 
 /* dashboard */ 
-
+/*
 Route::get('/', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+*/
+Route::get('/', [PreviewController::class, 'show_home'])->name('home');
+Route::get('/preview', [PreviewController::class, 'show_preview'])->name('preview');
+Route::get('/map', [PreviewController::class, 'show_map'])->name('map');
+Route::get('/dashboard', [PreviewController::class, 'show_dashboard'])->name('dashboard');
 
 /* Users */
 
