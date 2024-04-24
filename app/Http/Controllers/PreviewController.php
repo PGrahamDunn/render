@@ -24,14 +24,14 @@ class PreviewController extends Controller
         // default screen
         // image manipulation
 
-        /*
+        
         $query_select = $request->boolean('select');
         $query_download = $request->boolean('download');
-        $query_vendor = $request->query('vendor','');
-        $query_sku = strtoupper($request->query('sku',''));
+        $query_vendor = $request->query('vendor',null);
+        $query_sku = strtoupper($request->query('sku', null));
         $request_host = $request->schemeAndHttpHost();
         return view('preview',['query_sku' => $query_sku, 'query_select' => $query_select, 'query_download' => $query_download, 'query_vendor' => $query_vendor, 'request_host' => $request_host]);
-        */
+        
     }
 
     public function show_map()
@@ -96,6 +96,11 @@ class PreviewController extends Controller
         dd('done - mapbox');
 */
         return view('map');
+    }
+
+    public function show_old_map()
+    {
+        return view('oldmap');
     }
 
     public function show_dashboard()

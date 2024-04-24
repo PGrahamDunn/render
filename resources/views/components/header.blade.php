@@ -9,6 +9,9 @@
     </div>
 
     <div class="hidden sm:flex sm:items-center sm:ml-6 space-x-2 mr-2">
+        @if (config('app.env') =='local')
+        <x-spark.sizer />
+        @endif
         <a href="{{ route('dashboard') }}" title="Notifications">
             <x-icons.notifications class="w-8 h-8 stroke-gray-500" />
         </a>

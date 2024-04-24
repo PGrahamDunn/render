@@ -27,6 +27,7 @@ Route::get('/', function () {
 Route::get('/', [PreviewController::class, 'show_home'])->name('home');
 Route::get('/preview', [PreviewController::class, 'show_preview'])->name('preview');
 Route::get('/map', [PreviewController::class, 'show_map'])->name('map');
+Route::get('/oldmap', [PreviewController::class, 'show_old_map'])->name('oldmap');
 Route::get('/dashboard', [PreviewController::class, 'show_dashboard'])->name('dashboard');
 
 /* Users */
