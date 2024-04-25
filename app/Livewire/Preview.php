@@ -338,7 +338,8 @@ class Preview extends Component
 
         $response_order = Http::timeout(60)->withHeaders(['apiKey' => config('app.pulse_key')])->get(config('app.pulse_endpoint') . "/api/Orders/Render?OrderType=print-template&Product1&TemplateCode=$this->template_code$this->personalization_string");
         $this->local_file_name =  substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 7);
-        Storage::disk('local')->put('/public/C2/' . $this->template_name . '/' . $this->local_file_name . '.png', $response_order->body());
+        //Storage::disk('local')->put('/public/C2/' . $this->template_name . '/' . $this->local_file_name . '.png', $response_order->body());
+        Storage::disk('local')->put('/public/C2/' . $this->local_file_name . '.png', $response_order->body());
 
         if ($this->preview_valid) {
             $this->download_it_enabled = true;

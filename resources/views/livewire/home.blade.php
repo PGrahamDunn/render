@@ -7,31 +7,4 @@
             <img src="squarelogo (1).png" alt="P Graham Dunn.">
         </div>
     </div>
-    <div>1</div>
-        <img src="/storage/c2/C2HFA0056/QGCJAET.png" alt="">
-        <div>2</div>
-        <img src="\storage\C2\C2HFA0056\QGCJAET.png" alt="">
-        <div>3</div>
-        <img src="storage/c2/C2HFA0056/QGCJAET.png" alt="">
-        <div>4</div>
-        <img src="storage\C2\C2HFA0056\QGCJAET.png" alt="">
-
-        <div>1</div>
-        <img src="/public/c2/C2HFA0056/QGCJAET.png" alt="">
-        <div>2</div>
-        <img src="\public\C2\C2HFA0056\QGCJAET.png" alt="">
-        <div>3</div>
-        <img src="public/c2/C2HFA0056/QGCJAET.png" alt="">
-        <div>4</div>
-        <img src="public\C2\C2HFA0056\QGCJAET.png" alt="">
-
-        <div>1</div>
-        <img src="/c2/C2HFA0056/QGCJAET.png" alt="">
-        <div>2</div>
-        <img src="\C2\C2HFA0056\QGCJAET.png" alt="">
-        <div>3</div>
-        <img src="c2/C2HFA0056/QGCJAET.png" alt="">
-        <div>4</div>
-        <img src="C2\C2HFA0056\QGCJAET.png" alt="">
-
 </div>
