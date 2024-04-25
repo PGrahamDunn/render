@@ -184,7 +184,7 @@
             </x-spark.devinfo>
             @if($render_is_set)
             <div class="p-2 space-y-2 mx-2 flex justify-center">
-                <img src="\storage\C2\{{ $template_name }}\\{{ $local_file_name }}.png" alt="" class="max-w-xl w-full">
+                <img src="storage\C2\{{ $template_name }}\\{{ $local_file_name }}.png" alt="" class="max-w-xl w-full">
             </div>
             @elseif(1==2)
             <div class="p-2 justify-center">
