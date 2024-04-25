@@ -148,6 +148,7 @@ class Preview extends Component
         $this->preview_valid = true;
         $this->status_message = '';
         $this->show_message = false;
+        $this->template_name = trim($this->template_name);
         if (config('app.c2_preview_env') == 'local') {
             $elements_result = $this->sql_get_template();
         } else {

@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
         // ]);
         User::truncate();
         Role::truncate();
-        DB::table('role_User')->truncate();
+        DB::table('role_user')->truncate();
         Version::truncate();
         DB::table('version_types')->truncate();
         DB::table('version_notes')->truncate();
