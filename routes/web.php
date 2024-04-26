@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PreviewController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RenderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VersionNoteController;
 use App\Http\Controllers\UserController;
@@ -24,11 +25,11 @@ Route::get('/', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 */
-Route::get('/', [PreviewController::class, 'show_home'])->name('home');
-Route::get('/preview', [PreviewController::class, 'show_preview'])->name('preview');
-Route::get('/map', [PreviewController::class, 'show_map'])->name('map');
-Route::get('/oldmap', [PreviewController::class, 'show_old_map'])->name('oldmap');
-Route::get('/dashboard', [PreviewController::class, 'show_dashboard'])->name('dashboard');
+Route::get('/', [RenderController::class, 'show_home'])->name('home');
+Route::get('/preview', [RenderController::class, 'show_preview'])->name('preview');
+Route::get('/map', [RenderController::class, 'show_map'])->name('map');
+Route::get('/oldmap', [RenderController::class, 'show_old_map'])->name('oldmap');
+Route::get('/dashboard', [RenderController::class, 'show_dashboard'])->name('dashboard');
 
 /* Users */
 

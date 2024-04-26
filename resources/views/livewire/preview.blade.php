@@ -32,7 +32,7 @@
                 </div>
                 @endif
                 <!-- select it -->
-                @if (config('app.c2_preview_env') == 'web')
+                @if (config('app.c2_preview_env') == 'local')
                 <div class="space-y-3">
                     <div class="mt-2"><span class="pl-3 font-bold text-lg">Select.</span><span class="pl-8 text-sm">Enter the SKU or the template name to preview.</span></div>
                     <div class="ml-14 flex space-x-2 items-center justify-between">
@@ -99,7 +99,7 @@
 
                 </div>
                 <!-- download it -->
-                @if (config('app.c2_preview_env') == 'web')
+                @if (config('app.c2_preview_env') == 'local')
                 <div class="space-y-3">
                     <div class="mt-4"><span class="pl-3 font-bold text-lg">Download.</span><span class="pl-8 text-sm">Enter the filename and download a PNG file or copy it to the clipboard.</span></div>
                     <div class="ml-14 flex space-x-2 items-center justify-between">
@@ -116,7 +116,7 @@
                 </div>
                 @endif
                 <!-- copy it -->
-                @if (config('app.c2_preview_env') == 'web')
+                @if (config('app.c2_preview_env') == 'local')
                 <div class="space-y-3">
                     <div class="mt-4"><span class="pl-3 font-bold text-lg">Copy.</span><span class="pl-8 text-sm">Copy personilizations for the {{ strtoupper($query_vendor) }} order form.</span></div>
                     <div class="ml-14 flex justify-between items-center space-x-3">
@@ -143,7 +143,7 @@
                 </div>
                 @endif
                 <!-- submit it -->
-                @if (config('app.c2_preview_env') == 'web')
+                @if (config('app.c2_preview_env') == 'local')
                 <div class="space-y-3">
                     <div class="mt-4"><span class="pl-3 font-bold text-lg">Submit.</span><span class="pl-8 text-sm">Submit an order into Pulse.</span></div>
                     <div class="ml-14 flex space-x-2 items-center justify-between">
@@ -159,7 +159,7 @@
                 </div>
                 @endif
                 <!-- reset it -->
-                @if (config('app.c2_preview_env') == 'web')
+                @if (config('app.c2_preview_env') == 'local')
                 <div class="space-y-3">
                     <div class="mt-4"><span class="pl-3 font-bold text-lg">Reset.</span><span class="pl-8 text-sm">Reset the template form.</span></div>
                     <div class="flex justify-end">
@@ -185,7 +185,7 @@
             @if($render_is_set)
             <div class="p-2 space-y-2 mx-2 flex justify-center">
                 {{--<img src="storage\C2\{{ $template_name }}\\{{ $local_file_name }}.png" alt="" class="max-w-xl w-full">--}}
-                <img src="storage\C2\\{{ $local_file_name }}.png" alt="" class="max-w-xl w-full">
+                <img src="\storage\C2\{{ $local_file_name }}.png" alt="image not found" class="max-w-xl w-full">
             </div>
             @elseif(1==2)
             <div class="p-2 justify-center">

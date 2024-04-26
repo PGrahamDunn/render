@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Counter;
+use App\Models\Design;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
@@ -90,7 +91,7 @@ class Preview extends Component
         if (strlen($this->query_sku > 2)) {
             $this->template_name = $this->query_sku;
             $this->select_it_enabled = false;
-            //$this->select_it();
+            $this->select_it();
         }
     }
 
@@ -340,6 +341,7 @@ class Preview extends Component
         $this->local_file_name =  substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 7);
         //Storage::disk('local')->put('/public/C2/' . $this->template_name . '/' . $this->local_file_name . '.png', $response_order->body());
         Storage::disk('local')->put('/public/C2/' . $this->local_file_name . '.png', $response_order->body());
+        Design::Create(['filename' => $this->local_file_name . '.png']);
 
         if ($this->preview_valid) {
             $this->download_it_enabled = true;

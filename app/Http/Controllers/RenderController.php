@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Visit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 
-class PreviewController extends Controller
+class RenderController extends Controller
 {
     public function show_home()
     {
@@ -30,6 +31,7 @@ class PreviewController extends Controller
         $query_vendor = $request->query('vendor',null);
         $query_sku = strtoupper($request->query('sku', null));
         $request_host = $request->schemeAndHttpHost();
+        $result = Visit::Create(['url' => $request_host, 'source' => $query_vendor, 'sku' => $query_sku]);
         return view('preview',['query_sku' => $query_sku, 'query_select' => $query_select, 'query_download' => $query_download, 'query_vendor' => $query_vendor, 'request_host' => $request_host]);
         
     }
