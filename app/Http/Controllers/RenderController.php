@@ -30,9 +30,10 @@ class RenderController extends Controller
         $query_download = $request->boolean('download');
         $query_vendor = $request->query('vendor',null);
         $query_sku = strtoupper($request->query('sku', null));
-        $request_host = $request->schemeAndHttpHost();
-        $result = Visit::Create(['url' => $request_host, 'source' => $query_vendor, 'sku' => $query_sku]);
-        return view('preview',['query_sku' => $query_sku, 'query_select' => $query_select, 'query_download' => $query_download, 'query_vendor' => $query_vendor, 'request_host' => $request_host]);
+        $request_url = str_replace('/' . $request->path(),'',$request->url());
+        $request_ip = $request->ip();
+        $result = Visit::Create(['request_url' => $request_url, 'request_ip' => $request_ip, 'source' => $query_vendor, 'sku' => $query_sku]);
+        return view('preview',['query_sku' => $query_sku, 'query_select' => $query_select, 'query_download' => $query_download, 'query_vendor' => $query_vendor]);
         
     }
 

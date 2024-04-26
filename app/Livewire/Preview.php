@@ -16,7 +16,6 @@ class Preview extends Component
 {
     public $query_sku;
     public $query_vendor;
-    public $request_host;
 
     #[Session]
     public $choose_it_enabled = true;
