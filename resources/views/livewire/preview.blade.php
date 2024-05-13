@@ -104,7 +104,7 @@
                 <!-- download it -->
                 @if (config('app.c2_preview_env') == 'local')
                 <div class="space-y-3">
-                    <div class="mt-4"><span class="pl-3 font-bold text-lg">Download.</span><span class="pl-8 text-sm">Enter the filename and download a PNG file or copy it to the clipboard.</span></div>
+                    <div class="mt-4"><span class="pl-3 font-bold text-lg">Download.</span><span class="pl-8 text-sm">Enter the filename and download a PNG file{{-- or copy it to the clipboard--}}.</span></div>
                     <div class="ml-14 flex space-x-2 items-center justify-between">
                         <div class="flex items-center space-x-3">
                             <x-spark.label for="download_file" value="Filename" />
@@ -112,7 +112,7 @@
                             <span>.png</span>
                         </div>
                         <div class="space-x-2">
-                            <x-spark.button-main onclick="copyImgToClipboard('/storage/C2/{{ $template_name }}/{{ $local_file_name }}.png')" :disabled="!$download_it_enabled">Clipboard</x-spark.button-main>
+                            {{--<x-spark.button-main onclick="copyImgToClipboard('/storage/C2/{{ $template_name }}/{{ $local_file_name }}.png')" :disabled="!$download_it_enabled">Clipboard</x-spark.button-main>--}}
                             <x-spark.button-main wire:click="download_it" :disabled="!$download_it_enabled">Download</x-spark.button-main>
                         </div>
                     </div>
