@@ -15,7 +15,8 @@ use Illuminate\Support\Arr;
 class Preview extends Component
 {
     public $query_sku;
-    public $query_vendor;
+    public $query_fetch;
+    public $query_source;
 
     #[Session]
     public $choose_it_enabled = true;
@@ -89,8 +90,11 @@ class Preview extends Component
         $this->reset_variables();
         if (strlen($this->query_sku > 2)) {
             $this->template_name = $this->query_sku;
-            $this->select_it_enabled = false;
-            $this->select_it();
+            //$this->select_it_enabled = false;
+            if ($this->query_fetch)
+            {
+                $this->choose_it();
+            }
         }
     }
 
@@ -149,20 +153,24 @@ class Preview extends Component
         $this->status_message = '';
         $this->show_message = false;
         $this->template_name = trim($this->template_name);
+        /*
         if (config('app.c2_preview_env') == 'local') {
             $elements_result = $this->sql_get_template();
         } else {
+            */
             $elements_result = $this->web_get_template();
-        }
+        //}
         if ($elements_result) {
             foreach ($this->template_elements as $template_element) {
                 if (Str::lower($template_element) == 'mascot') {
                     $this->element_mascot_enabled = true;
+                    /*
                     if (config('app.c2_preview_env') == 'local') {
                         $designs_result = $this->sql_get_mascots();
                     } else {
+                        */
                         $designs_result = $this->web_get_mascots();
-                    }
+                    //}
                 } elseif (Str::lower($template_element) == 'line 1') {
                     $this->element_line_1_enabled = true;
                 } elseif (Str::lower($template_element) == 'line 2') {
@@ -289,6 +297,7 @@ class Preview extends Component
             $this->render_it_enabled = true;
             $this->render_is_set = false;
             $this->build_customization_string();
+            $this->render_it();
         } else {
             $this->render_it_enabled = false;
         }
@@ -298,9 +307,9 @@ class Preview extends Component
     {
         $this->customization_string = '';
         $customization_array = [];
-        if (strtolower($this->query_vendor) == 'zoey') {
+        if (strtolower($this->query_source) == 'zoey') {
             $this->customization_string = $this->element_map_coordinates;
-        } elseif (strtolower($this->query_vendor) == 'faire') {
+        } elseif (strtolower($this->query_source) == 'faire') {
             foreach ($this->template_elements as $template_element) {
                 if (strtolower($template_element) == 'line 1') {
                     //$this->customization_string = $this->customization_string . $template_element . "=" . $this->element_line_1 . '|';
@@ -344,7 +353,7 @@ class Preview extends Component
 
         if ($this->preview_valid) {
             $this->download_it_enabled = true;
-            if ($this->query_vendor)
+            if ($this->query_source)
             {
                 $this->copy_it_enabled = true;
             }

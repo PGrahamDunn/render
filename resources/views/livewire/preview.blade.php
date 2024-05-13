@@ -1,7 +1,8 @@
 <div>
     <x-spark.devinfo>
-        <div>sku = {{ $query_sku }}</div>
-        <div>vendor = {{ $query_vendor }}</div>
+        <div>fetch = {{ $query_fetch ? 'true' : 'false' }}</div>
+        <div>sku = {{ strlen(trim($query_sku)) ? trim($query_sku) : "[none]" }}</div>
+        <div>source = {{ strlen(trim($query_source)) ? trim($query_source) : "[none]" }}</div>
     </x-spark.devinfo>
     <div class="grid grid-cols-1 2xl:grid-cols-2 gap-4">
 
@@ -20,7 +21,7 @@
             <!-- template -->
             <div class="p-2 space-y-6 mx-2 divide-y divide-gray-300">
                 <!-- choose it -->
-                @if (config('app.c2_preview_env') == 'web')
+                @if ((config('app.c2_preview_env') == 'web') and (!$query_fetch))
                 <div class="space-y-3">
                     <div class="flex space-x-2 items-center justify-between">
                         <div class="mt-4"><span class="pl-3 font-bold text-lg">Choose.</span><span class="pl-8 text-sm">SKU:</span><span class="pl-3">{{ $template_name }}</span></div>
@@ -90,6 +91,7 @@
                     </x-spark.devinfo>
                     @endif
                 </div>
+                {{--
                 <!-- render it -->
                 <div class="space-y-3">
                     <div class="mt-4"><span class="pl-3 font-bold text-lg">Render.</span><span class="pl-8 text-sm">Render and display the preview image from Pulse.</span></div>
@@ -98,6 +100,7 @@
                     </div>
 
                 </div>
+                --}}
                 <!-- download it -->
                 @if (config('app.c2_preview_env') == 'local')
                 <div class="space-y-3">
@@ -116,16 +119,16 @@
                 </div>
                 @endif
                 <!-- copy it -->
-                @if (config('app.c2_preview_env') == 'local')
+                @if ($query_source)
                 <div class="space-y-3">
-                    <div class="mt-4"><span class="pl-3 font-bold text-lg">Copy.</span><span class="pl-8 text-sm">Copy personilizations for the {{ strtoupper($query_vendor) }} order form.</span></div>
+                    <div class="mt-4"><span class="pl-3 font-bold text-lg">Copy.</span><span class="pl-8 text-sm">Copy personilizations for the {{ strtoupper($query_source) }} order form.</span></div>
                     <div class="ml-14 flex justify-between items-center space-x-3">
                         <div class="flex items-center space-x-6">
                             <input hidden type="text" id="copy_customization" name="copy_customization" value="{{$customization_string}}">
-                            @if(strtolower($query_vendor) == 'zoey')
+                            @if(strtolower($query_source) == 'zoey')
                             <div>Map Coordinates</div>
                             <x-spark.input id="zoey_elements" name="zoey_elements" type="text" :disabled="!$copy_it_enabled" class="h-8" />
-                            @elseif(strtolower($query_vendor) == 'faire')
+                            @elseif(strtolower($query_source) == 'faire')
                             <div id="faire_cust_string">{{ $customization_string }}</div>
                             @else
                             <div class="ml-14"></div>
@@ -195,7 +198,7 @@
             <div class="flex justify-center items-center">
                 <div class="m-8 rounded-lg border border-gray-300 border-dashed w-96 h-96 bg-gradient-to-r from-gray-100 to-gray-50 flex justify-center items-center">
                     <!-- spinner -->
-                    <div role="status" wire:loading wire:target="render_it">
+                    <div role="status" wire:loading wire:target="personalize_it">
                         <x-spark.spinner class="w-24 h-24"></x-spark.spinner>
                     </div>
                 </div>

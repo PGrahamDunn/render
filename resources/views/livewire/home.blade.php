@@ -7,4 +7,22 @@
             <img src="squarelogo (1).png" alt="P Graham Dunn.">
         </div>
     </div>
+    <x-spark.devinfo>
+        <x-spark.input wire:model="sku" class="h-8" value="{{ $sku }}"></x-spark.input>
+        <x-spark.input wire:model="source" class="h-8" value="{{ $source }}"></x-spark.input>
+        <ul>
+            <li><a href="http://127.0.0.1:8000" class="m-2 font-bold text-gray-700 hover:underline hover:text-blue-700">base url</a></li>
+            <li><a href="http://127.0.0.1:8000/preview" class="m-2 font-bold text-gray-700 hover:underline hover:text-blue-700">base preview url</a></li>
+            <li><a href="http://127.0.0.1:8000/preview/?source={{ $source }}" class="m-2 font-bold text-gray-700 hover:underline hover:text-blue-700">source</a></li>
+            <li><a href="http://127.0.0.1:8000/preview/?sku={{ $sku }}&source={{ $source }}" class="m-2 font-bold text-gray-700 hover:underline hover:text-blue-700">sku source</a></li>
+            <li><a href="http://127.0.0.1:8000/preview/?source={{ $source }}&fetch=true" class="m-2 font-bold text-gray-700 hover:underline hover:text-blue-700">source fetch</a></li>
+            <li><a href="http://127.0.0.1:8000/preview/?sku={{ $sku }}&source={{ $source }}&fetch=true" class="m-2 font-bold text-gray-700 hover:underline hover:text-blue-700">sku source fetch</a></li>
+            <li><a href="http://127.0.0.1:8000/preview/?sku={{ $sku }}" class="m-2 font-bold text-gray-700 hover:underline hover:text-blue-700">sku</a></li>
+            <li><a href="http://127.0.0.1:8000/preview/?sku={{ $sku }}&fetch=true" class="m-2 font-bold text-gray-700 hover:underline hover:text-blue-700">sku fetch</a></li>
+            <li><a href="http://127.0.0.1:8000/preview/?fetch=true" class="m-2 font-bold text-gray-700 hover:underline hover:text-blue-700">fetch</a></li>
+            <a href="http://127.0.0.1:8000/dashboard?dashboard_key=ZDTXRVK">Dashboard</a>
+
+        </ul>
+    </x-spark.devinfo>
+
 </div>
