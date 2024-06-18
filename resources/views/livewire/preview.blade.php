@@ -1,6 +1,5 @@
 <div>
     <x-spark.devinfo>
-        <div>fetch = {{ $query_fetch ? 'true' : 'false' }}</div>
         <div>sku = {{ strlen(trim($query_sku)) ? trim($query_sku) : "[none]" }}</div>
         <div>source = {{ strlen(trim($query_source)) ? trim($query_source) : "[none]" }}</div>
     </x-spark.devinfo>
@@ -21,14 +20,16 @@
             <!-- template -->
             <div class="p-2 space-y-6 mx-2 divide-y divide-gray-300">
                 <!-- choose it -->
-                @if ((config('app.c2_preview_env') == 'web') and (!$query_fetch))
+                @if ((config('app.c2_preview_env') == 'web'))
                 <div class="space-y-3">
                     <div class="flex space-x-2 items-center justify-between">
                         <div class="mt-4"><span class="pl-3 font-bold text-lg">Choose.</span><span class="pl-8 text-sm">SKU:</span><span class="pl-3">{{ $template_name }}</span></div>
+                        {{--
                         <div role="status" wire:loading wire:target="choose_it">
                             <x-spark.spinner class="w-8 h-8"></x-spark.spinner>
                         </div>
                         <x-spark.button-main wire:click="choose_it" :disabled="!$choose_it_enabled" class="mt-4">Choose</x-spark.button-main>
+                        --}}
                     </div>
                 </div>
                 @endif
@@ -51,17 +52,17 @@
                     <!-- Line 1 -->
                     <div class="ml-14 flex items-center space-x-3 {{ $element_line_1_enabled ? 'block' : 'hidden' }}">
                         <x-spark.label for="element_line_1" value="Line 1" />
-                        <x-spark.input wire:model="element_line_1" id="element_line_1" name="element_line_1" value="{{ $element_line_1 }}" type="text" :disabled="!$personalize_it_enabled" class="h-8" />
+                        <x-spark.input wire:model="element_line_1" id="element_line_1" name="element_line_1" value="{{ $element_line_1 }}" type="text" :disabled="!$personalize_it_enabled" placeholder="{{ $element_line_1_placeholder }}" class="h-8" />
                     </div>
                     <!-- Line 2 -->
                     <div class="ml-14 flex items-center space-x-3 {{ $element_line_2_enabled ? 'block' : 'hidden' }}">
                         <x-spark.label for="element_line_2" value="Line 2" />
-                        <x-spark.input wire:model="element_line_2" id="element_line_2" name="element_line_2" value="{{ $element_line_2 }}" type="text" :disabled="!$personalize_it_enabled" class="h-8" />
+                        <x-spark.input wire:model="element_line_2" id="element_line_2" name="element_line_2" value="{{ $element_line_2 }}" type="text" :disabled="!$personalize_it_enabled" placeholder="{{ $element_line_2_placeholder }}" class="h-8" />
                     </div>
                     <!-- Line 3 -->
                     <div class="ml-14 flex items-center space-x-3 {{ $element_line_3_enabled ? 'block' : 'hidden' }}">
                         <x-spark.label for="element_line_3" value="Line 3" />
-                        <x-spark.input wire:model="element_line_3" id="element_line_3" name="element_line_3" value="{{ $element_line_3 }}" type="text" :disabled="!$personalize_it_enabled" class="h-8" />
+                        <x-spark.input wire:model="element_line_3" id="element_line_3" name="element_line_3" value="{{ $element_line_3 }}" type="text" :disabled="!$personalize_it_enabled" placeholder="{{ $element_line_3_placeholder }}" class="h-8" />
                     </div>
                     <!-- Line map coordinates -->
                     <div class="ml-14 flex items-center space-x-3 {{ $element_map_coordinates_enabled ? 'block' : 'hidden' }}">
@@ -75,11 +76,13 @@
                         {{--<x-text-input wire:model="element_mascot" id="element_mascot" name="element_mascot" type="text" class="h-8 block w-72 sm:text-sm sm:leading-6" />--}}
                         <x-spark.select wire:model="element_mascot" id="element_mascot" name="element_mascot" class=" h-8">
                             <option value="-1" selected>none</option>
-                            @isset($mascots)
-                            @foreach ($mascots as $mascot)
-                            <option value="{{ $mascot }}">{{ str_replace('-','',str_replace($template_name,'', $mascot)) }}</option>
+                            @foreach ($local_template->c2elements as $c2element)
+                            @if (strtolower($c2element->name) == 'mascot')
+                            @foreach ($c2element->c2designs as $mascot)
+                            <option value="{{ $mascot->name }}">{{ str_replace('-','',str_replace($template_name,'', $mascot->name)) }}</option>
                             @endforeach
-                            @endisset
+                            @endif
+                            @endforeach
                         </x-spark.select>
                     </div>
                     <div class="flex justify-end">
@@ -98,7 +101,6 @@
                     <div class="flex justify-end">
                         <x-spark.button-main wire:click="render_it" :disabled="!$render_it_enabled">Render</x-spark.button-main>
                     </div>
-
                 </div>
                 --}}
                 <!-- download it -->
@@ -121,7 +123,7 @@
                 <!-- copy it -->
                 @if ($query_source)
                 <div class="space-y-3">
-                    <div class="mt-4"><span class="pl-3 font-bold text-lg">Copy.</span><span class="pl-8 text-sm">Copy personilizations for the {{ strtoupper($query_source) }} order form.</span></div>
+                    <div class="mt-4"><span class="pl-3 font-bold text-lg">Copy.</span><span class="pl-8 text-sm">Copy personalizations for the {{ strtoupper($query_source) }} order form.</span></div>
                     <div class="ml-14 flex justify-between items-center space-x-3">
                         <div class="flex items-center space-x-6">
                             <input hidden type="text" id="copy_customization" name="copy_customization" value="{{$customization_string}}">
@@ -148,7 +150,7 @@
                 <!-- submit it -->
                 @if (config('app.c2_preview_env') == 'local')
                 <div class="space-y-3">
-                    <div class="mt-4"><span class="pl-3 font-bold text-lg">Submit.</span><span class="pl-8 text-sm">Submit an order into Pulse.</span></div>
+                    <div class="mt-4"><span class="pl-3 font-bold text-lg">Submit.</span><span class="pl-8 text-sm">Submit an order to Pulse.</span></div>
                     <div class="ml-14 flex space-x-2 items-center justify-between">
                         <div class="space-x-3">
                             <span>Batch ID:</span>
@@ -186,10 +188,21 @@
                 render is set: {{ $render_is_set ? 'true' : 'false' }}
             </x-spark.devinfo>
             @if($render_is_set)
+            @if($render_is_available)
             <div class="p-2 space-y-2 mx-2 flex justify-center">
                 {{--<img src="storage\C2\{{ $template_name }}\\{{ $local_file_name }}.png" alt="" class="max-w-xl w-full">--}}
                 <img src="\storage\C2\{{ $local_file_name }}.png" alt="image not found" class="max-w-xl w-full">
             </div>
+            @else
+            <div class="flex justify-center">
+                <div class="m-8 rounded-lg border-2 border-gray-300 w-96 h-96 bg-gradient-to-r from-gray-100 to-gray-50 flex flex-col justify-center items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-40 text-gray-400">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                    </svg>
+                    <div class="text-4xl text-gray-400 font-bold">No image available</div>
+                </div>
+            </div>
+            @endif
             @elseif(1==2)
             <div class="p-2 justify-center">
                 <iframe src="http://127.0.0.1:8000/oldmap" frameborder="0" class="w-full h-fit"></iframe>

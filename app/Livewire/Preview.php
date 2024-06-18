@@ -2,9 +2,10 @@
 
 namespace App\Livewire;
 
+use App\Models\C2Item;
 use App\Models\Counter;
 use App\Models\Design;
-use Illuminate\Support\Facades\DB;
+use App\Traits\PulseTemplates;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
@@ -14,8 +15,9 @@ use Illuminate\Support\Arr;
 
 class Preview extends Component
 {
+    use PulseTemplates;
+
     public $query_sku;
-    public $query_fetch;
     public $query_source;
 
     #[Session]
@@ -36,20 +38,29 @@ class Preview extends Component
     #[Session]
     public $template_name;
     #[Session]
+    public $local_template;
+/*
+    #[Session]
     public $template_code;
     #[Session]
     public $template_elements;
+    #[Session]
+    public $mascots;
+*/
 
     #[Session]
     public $element_line_1;
+    public $element_line_1_placeholder;
     #[Session]
     public $element_line_1_enabled;
     #[Session]
     public $element_line_2;
+    public $element_line_2_placeholder;
     #[Session]
     public $element_line_2_enabled;
     #[Session]
     public $element_line_3;
+    public $element_line_3_placeholder;
     #[Session]
     public $element_line_3_enabled;
     #[Session]
@@ -65,18 +76,16 @@ class Preview extends Component
     #[Session]
     public $customization_string;
 
-    #[Session]
-    public $mascots;
-
-    
     public $status_message;
     public $show_message;
     public $message_type;
+
     #[Session]
     public $preview_valid;
 
     #[Session]
     public $render_is_set = false;
+    public $render_is_available = true;
 
     #[Session]
     public $local_file_name;
@@ -89,11 +98,17 @@ class Preview extends Component
     {
         $this->reset_variables();
         if (strlen($this->query_sku > 2)) {
-            $this->template_name = $this->query_sku;
-            //$this->select_it_enabled = false;
-            if ($this->query_fetch)
+            $this->template_name = strtoupper(trim($this->query_sku));
+            if($this->verify_c2_template($this->template_name))
             {
-                $this->choose_it();
+                $this->select_it();
+            }
+            else
+            {
+                $this->status_message = "Invalid SKU.";
+                $this->message_type = 'error';
+                $this->show_message = true;
+                $this->preview_valid = false;
             }
         }
     }
@@ -108,13 +123,16 @@ class Preview extends Component
         $this->copy_it_enabled = false;
         $this->submit_it_enabled = false;
         $this->template_name = '';
-        $this->template_code = '';
-        $this->template_elements = null;
+        //$this->template_code = '';
+        //$this->template_elements = null;
         $this->element_line_1 = '';
+        $this->element_line_1_placeholder = '';
         $this->element_line_1_enabled = false;
         $this->element_line_2 = '';
+        $this->element_line_2_placeholder = '';
         $this->element_line_2_enabled = false;
         $this->element_line_3 = '';
+        $this->element_line_3_placeholder = '';
         $this->element_line_3_enabled = false;
         $this->element_mascot = '';
         $this->element_mascot_enabled = false;
@@ -122,12 +140,13 @@ class Preview extends Component
         $this->element_map_coordinates_enabled = false;
         $this->personalization_string = '';
         $this->customization_string = '';
-        $this->mascots = null;
+        //$this->mascots = null;
         $this->status_message = '';
         $this->show_message = false;
         $this->message_type = '';
         $this->preview_valid = true;
         $this->render_is_set = false;
+        $this->render_is_available = true;
         $this->local_file_name = '';
         $this->download_file_name = '';
         $this->pulse_batch_id = '';
@@ -135,6 +154,7 @@ class Preview extends Component
 
     public function choose_it()
     {
+        /*
         $this->select_it();
         if ($this->preview_valid) {
             if (count($this->template_elements) == 0) {
@@ -145,59 +165,73 @@ class Preview extends Component
                 $this->choose_it_enabled = false;
             }
         }
+            */
     }
 
     public function select_it()
     {
-        $this->preview_valid = true;
-        $this->status_message = '';
-        $this->show_message = false;
-        $this->template_name = trim($this->template_name);
-        /*
-        if (config('app.c2_preview_env') == 'local') {
-            $elements_result = $this->sql_get_template();
-        } else {
-            */
-            $elements_result = $this->web_get_template();
-        //}
-        if ($elements_result) {
-            foreach ($this->template_elements as $template_element) {
-                if (Str::lower($template_element) == 'mascot') {
-                    $this->element_mascot_enabled = true;
-                    /*
-                    if (config('app.c2_preview_env') == 'local') {
-                        $designs_result = $this->sql_get_mascots();
+        if ($this->verify_c2_template($this->template_name))
+        {
+            $this->local_template = C2Item::where('name', $this->template_name)->first();
+            $this->preview_valid = true;
+            $this->status_message = '';
+            $this->show_message = false;
+            /*
+            if (config('app.c2_preview_env') == 'local') {
+                $elements_result = $this->sql_get_template();
+            } else {
+                */
+                //$elements_result = $this->web_get_template();
+                //$elements_result = $this->local_get_template();
+            //}
+                foreach ($this->local_template->c2elements as $c2element) 
+                {
+                    if (Str::lower($c2element->name) == 'mascot') {
+                        $this->element_mascot_enabled = true;
+                        /*
+                        if (config('app.c2_preview_env') == 'local') {
+                            $designs_result = $this->sql_get_mascots();
+                        } else {
+                            */
+                            //$designs_result = $this->web_get_mascots();
+                        //}
+                    } elseif (Str::lower($c2element->name) == 'line 1') {
+                        $this->element_line_1_enabled = true;
+                        $this->element_line_1_placeholder = $c2element->default_text;
+                    } elseif (Str::lower($c2element->name) == 'line 2') {
+                        $this->element_line_2_enabled = true;
+                        $this->element_line_2_placeholder = $c2element->default_text;
+                    } elseif (Str::lower($c2element->name) == 'line 3') {
+                        $this->element_line_3_enabled = true;
+                        $this->element_line_3_placeholder = $c2element->default_text;
+                    } elseif (Str::lower($c2element->name) == 'map coordinates') {
+                        $this->element_map_coordinates_enabled = true;
                     } else {
-                        */
-                        $designs_result = $this->web_get_mascots();
-                    //}
-                } elseif (Str::lower($template_element) == 'line 1') {
-                    $this->element_line_1_enabled = true;
-                } elseif (Str::lower($template_element) == 'line 2') {
-                    $this->element_line_2_enabled = true;
-                } elseif (Str::lower($template_element) == 'line 3') {
-                    $this->element_line_3_enabled = true;
-                } elseif (Str::lower($template_element) == 'map coordinates') {
-                    $this->element_map_coordinates_enabled = true;
+                        $this->status_message = 'template element ' . $c2element->name . ' is undefined.';
+                        $this->message_type = 'error';
+                        $this->show_message = true;
+                        $this->preview_valid = false;
+                    }
+                }
+            if ($this->preview_valid) {
+                if (count($this->local_template->c2elements) == 0) {
+                    $this->render_it_enabled = true;
+                    $this->select_it_enabled = false;
                 } else {
-                    $this->status_message = 'template element ' . $template_element . ' is undefined.';
-                    $this->message_type = 'error';
-                    $this->show_message = true;
-                    $this->preview_valid = false;
+                    $this->personalize_it_enabled = true;
+                    $this->select_it_enabled = false;
                 }
             }
         }
-        if ($this->preview_valid) {
-            if (count($this->template_elements) == 0) {
-                $this->render_it_enabled = true;
-                $this->select_it_enabled = false;
-            } else {
-                $this->personalize_it_enabled = true;
-                $this->select_it_enabled = false;
-            }
+        else
+        {
+            $this->status_message = "Invalid SKU.";
+            $this->message_type = 'error';
+            $this->show_message = true;
+            $this->preview_valid = false;
         }
     }
-
+    /*
     public function sql_get_template()
     {
         $result = true;
@@ -242,6 +276,28 @@ class Preview extends Component
         return $result;
     }
 
+    public function local_get_template()
+    {
+        $result = true;
+        $pulse_template = C2Item::where('name', $this->template_name)->first();
+        if ($pulse_template) {
+            $this->template_code = $pulse_template->Code;
+            $collection = collect([]);
+            foreach ($pulse_template->C2Elements as $c2element) {
+                $collection = $collection->concat([$c2element->name]);
+            }
+            $this->template_elements = $collection;
+        } else {
+            $this->status_message = "Invalid SKU.";
+            $this->message_type = 'error';
+            $this->show_message = true;
+            $this->preview_valid = false;
+            $result = false;
+        }
+        return $result;
+    }
+    */
+    /*
     public function sql_get_mascots()
     {
         $this->mascots = DB::connection('sqlsrv')->table('designs')->select('designid', 'name')->where('Name', 'like', '%' . $this->template_name . '%')->get();
@@ -258,6 +314,16 @@ class Preview extends Component
         $this->mascots = $collection;
     }
 
+    public function local_get_mascots()
+    {
+        $designs = 
+        $collection = collect([]);
+        foreach ($designs as $design) {
+            $collection = $collection->concat([$design->DesignName]);
+        }
+        $this->mascots = $collection;
+    }
+    */
     public function personalize_it()
     {
         // generate personilication string
@@ -268,19 +334,19 @@ class Preview extends Component
         $this->preview_valid = true;
         $this->personalization_string = '';
         $index = 0;
-        foreach ($this->template_elements as $template_element) {
-            if (strtolower($template_element) == 'line 1') {
-                $this->personalization_string = $this->personalization_string . '&Personalizations[' . $index . '].ElementName=' . str_replace('&', '%26', $template_element) . '&Personalizations[' . $index . '].Text=' . str_replace('&', '%26', trim($this->element_line_1)) . '&Personalizations[' . $index . '].IsText=true';
-            } elseif (strtolower($template_element) == 'line 2') {
-                $this->personalization_string = $this->personalization_string . '&Personalizations[' . $index . '].ElementName=' . str_replace('&', '%26', $template_element) . '&Personalizations[' . $index . '].Text=' . str_replace('&', '%26', trim($this->element_line_2)) . '&Personalizations[' . $index . '].IsText=true';
-            } elseif (strtolower($template_element) == 'line 3') {
-                $this->personalization_string = $this->personalization_string . '&Personalizations[' . $index . '].ElementName=' . str_replace('&', '%26', $template_element) . '&Personalizations[' . $index . '].Text=' . str_replace('&', '%26', trim($this->element_line_3)) . '&Personalizations[' . $index . '].IsText=true';
-            } elseif (strtolower($template_element) == 'map coordinates') {
-                $this->personalization_string = $this->personalization_string . '&Personalizations[' . $index . '].ElementName=' . str_replace('&', '%26', $template_element) . '&Personalizations[' . $index . '].Text=' . str_replace('&', '%26', trim($this->element_map_coordinates)) . '&Personalizations[' . $index . '].IsText=true';
-            } elseif (strtolower($template_element) == 'mascot') {
+        foreach ($this->local_template->c2elements as $c2element) {
+            if (strtolower($c2element->name) == 'line 1') {
+                $this->personalization_string = $this->personalization_string . '&Personalizations[' . $index . '].ElementName=' . str_replace('&', '%26', $c2element->name) . '&Personalizations[' . $index . '].Text=' . str_replace('&', '%26', trim($this->element_line_1)) . '&Personalizations[' . $index . '].IsText=true';
+            } elseif (strtolower($c2element->name) == 'line 2') {
+                $this->personalization_string = $this->personalization_string . '&Personalizations[' . $index . '].ElementName=' . str_replace('&', '%26', $c2element->name) . '&Personalizations[' . $index . '].Text=' . str_replace('&', '%26', trim($this->element_line_2)) . '&Personalizations[' . $index . '].IsText=true';
+            } elseif (strtolower($c2element->name) == 'line 3') {
+                $this->personalization_string = $this->personalization_string . '&Personalizations[' . $index . '].ElementName=' . str_replace('&', '%26', $c2element->name) . '&Personalizations[' . $index . '].Text=' . str_replace('&', '%26', trim($this->element_line_3)) . '&Personalizations[' . $index . '].IsText=true';
+            } elseif (strtolower($c2element->name) == 'map coordinates') {
+                $this->personalization_string = $this->personalization_string . '&Personalizations[' . $index . '].ElementName=' . str_replace('&', '%26', $c2element->name) . '&Personalizations[' . $index . '].Text=' . str_replace('&', '%26', trim($this->element_map_coordinates)) . '&Personalizations[' . $index . '].IsText=true';
+            } elseif (strtolower($c2element->name) == 'mascot') {
                 if($this->element_map_coordinates_enabled)
                 {
-                    $this->personalization_string =  $this->personalization_string . '&Personalizations[' . $index . '].ElementName=' . str_replace('&', '%26', $template_element) . '&Personalizations[' . $index . '].Text=' . '' . '&Personalizations[' . $index . '].IsText=false';
+                    $this->personalization_string =  $this->personalization_string . '&Personalizations[' . $index . '].ElementName=' . str_replace('&', '%26', $c2element->name) . '&Personalizations[' . $index . '].Text=' . '' . '&Personalizations[' . $index . '].IsText=false';
                 }
                 elseif (($this->element_mascot == '-1') or (strlen($this->element_mascot) == 0)) {
                     $this->status_message = 'No mascot selected.';
@@ -288,7 +354,7 @@ class Preview extends Component
                     $this->show_message = true;
                     $this->preview_valid = false;        
                 } else {
-                    $this->personalization_string =  $this->personalization_string . '&Personalizations[' . $index . '].ElementName=' . str_replace('&', '%26', $template_element) . '&Personalizations[' . $index . '].Text=' . str_replace('&', '%26', trim($this->element_mascot)) . '&Personalizations[' . $index . '].IsText=false';
+                    $this->personalization_string =  $this->personalization_string . '&Personalizations[' . $index . '].ElementName=' . str_replace('&', '%26', $c2element->name) . '&Personalizations[' . $index . '].Text=' . str_replace('&', '%26', trim($this->element_mascot)) . '&Personalizations[' . $index . '].IsText=false';
                 }
             }
             $index++;
@@ -310,22 +376,22 @@ class Preview extends Component
         if (strtolower($this->query_source) == 'zoey') {
             $this->customization_string = $this->element_map_coordinates;
         } elseif (strtolower($this->query_source) == 'faire') {
-            foreach ($this->template_elements as $template_element) {
-                if (strtolower($template_element) == 'line 1') {
+            foreach ($this->local_template->c2elements as $c2element) {
+                if (strtolower($c2element->name) == 'line 1') {
                     //$this->customization_string = $this->customization_string . $template_element . "=" . $this->element_line_1 . '|';
-                    $customization_array = Arr::add($customization_array, $template_element, $this->element_line_1);
-                } elseif (strtolower($template_element) == 'line 2') {
+                    $customization_array = Arr::add($customization_array, $c2element->name, $this->element_line_1);
+                } elseif (strtolower($c2element->name) == 'line 2') {
                     //$this->customization_string = $this->customization_string . $template_element . "=" . $this->element_line_2 . '|';
-                    $customization_array = Arr::add($customization_array, $template_element, $this->element_line_2);
-                } elseif (strtolower($template_element) == 'line 3') {
+                    $customization_array = Arr::add($customization_array, $c2element->name, $this->element_line_2);
+                } elseif (strtolower($c2element->name) == 'line 3') {
                     //$this->customization_string = $this->customization_string . $template_element . "=" . $this->element_line_3 . '|';
-                    $customization_array = Arr::add($customization_array, $template_element, $this->element_line_3);
-                } elseif (strtolower($template_element) == 'map coordinates') {
+                    $customization_array = Arr::add($customization_array, $c2element->name, $this->element_line_3);
+                } elseif (strtolower($c2element->name) == 'map coordinates') {
                     //$this->customization_string = $this->customization_string . $template_element . "=" . $this->element_map_coordinates . '|';
-                    $customization_array = Arr::add($customization_array, $template_element, $this->element_map_coordinates);
-                } elseif (strtolower($template_element) == 'mascot') {
+                    $customization_array = Arr::add($customization_array, $c2element->name, $this->element_map_coordinates);
+                } elseif (strtolower($c2element->name) == 'mascot') {
                     //$this->customization_string = $this->customization_string . $template_element . "=" . $this->element_mascot . '|';
-                    $customization_array = Arr::add($customization_array, $template_element, $this->element_mascot);
+                    $customization_array = Arr::add($customization_array, $c2element->name, $this->element_mascot);
                 }
             }
         }
@@ -344,11 +410,16 @@ class Preview extends Component
         $this->status_message = '';
         $this->show_message = false;
         //$this->get_map();
-
-        $response_order = Http::timeout(60)->withHeaders(['apiKey' => config('app.pulse_key')])->get(config('app.pulse_endpoint') . "/api/Orders/Render?OrderType=print-template&Product1&TemplateCode=$this->template_code$this->personalization_string");
+        $code = $this->local_template->code;
+        $response_order = Http::timeout(60)->withHeaders(['apiKey' => config('app.pulse_key')])->get(config('app.pulse_endpoint') . "/api/Orders/Render?OrderType=print-template&Product1&TemplateCode=$code$this->personalization_string");
         $this->local_file_name =  substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 7);
         //Storage::disk('local')->put('/public/C2/' . $this->template_name . '/' . $this->local_file_name . '.png', $response_order->body());
         Storage::disk('local')->put('/public/C2/' . $this->local_file_name . '.png', $response_order->body());
+        if (filesize(storage_path("/app/public/C2/$this->local_file_name" . '.png')) < 200)
+        {
+            $this->render_is_available = false;
+            //Storage::disk('local')->copy('NoRender.png', '/public/C2/' . $this->local_file_name . '.png');
+        }
         Design::Create(['filename' => $this->local_file_name . '.png']);
 
         if ($this->preview_valid) {
@@ -422,7 +493,8 @@ class Preview extends Component
 
     public function download_it()
     {
-        return response()->download(storage_path('app/public/C2/' . $this->template_name . '/' . $this->local_file_name . '.png'), str_replace(' ', '_', $this->download_file_name . '.png'));
+        //return response()->download(storage_path('app/public/C2/' . $this->template_name . '/' . $this->local_file_name . '.png'), str_replace(' ', '_', $this->download_file_name . '.png'));
+        return response()->download(storage_path('app/public/C2/' . $this->local_file_name . '.png'), str_replace(' ', '_', $this->download_file_name . '.png'));
     }
 
     public function copy_it()
@@ -437,7 +509,8 @@ class Preview extends Component
         $counter->increment('count_number');
         $this->pulse_batch_id = $counter->prefix . str_pad($counter->count_number, 6, "0",STR_PAD_LEFT);
         // order submit
-        $response = Http::withHeaders(['apiKey' => config('app.pulse_key')])->post(config('app.pulse_endpoint') . "/api/Orders/Submit?OrderType=print-template&ProductCode=Product1&TemplateCode=$this->template_code&Job=$this->pulse_batch_id&$this->personalization_string");
+        $code = $this->local_template->code;
+        $response = Http::withHeaders(['apiKey' => config('app.pulse_key')])->post(config('app.pulse_endpoint') . "/api/Orders/Submit?OrderType=print-template&ProductCode=Product1&TemplateCode=$code&Job=$this->pulse_batch_id&$this->personalization_string");
         if ($response->status() == 200)
         {
             $status_message = 'Order submitted to Pulse.';

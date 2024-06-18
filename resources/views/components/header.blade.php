@@ -1,17 +1,17 @@
 <div class="flex justify-between">
-    <div class="flex ">
-        <div class="shrink-0 flex items-center">
+    <div class="flex">
+        <div class="shrink-0 flex items-center space-x-3">
             @if (config('app.env') =='local')
+            <x-spark.sizer />
+            <a href="{{ route('dashboard.actuate') }}">
+                <x-spark.button-main>Actuate</x-spark.button-main>
+            </a>
             <span class="ml-4 text-lg font-bold"> Route: {{Request::route()->getName() }}</span>
             @endif
-
         </div>
     </div>
 
     <div class="hidden sm:flex sm:items-center sm:ml-6 space-x-2 mr-2">
-        @if (config('app.env') =='local')
-        <x-spark.sizer />
-        @endif
         <a href="{{ route('dashboard') }}" title="Notifications">
             <x-icons.notifications class="w-8 h-8 stroke-gray-500" />
         </a>

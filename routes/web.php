@@ -6,6 +6,7 @@ use App\Http\Controllers\RenderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VersionNoteController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UtilityController;
 use Illuminate\Auth\Middleware\Authorize;
 
 /*
@@ -25,12 +26,15 @@ Route::get('/', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 */
+Route::get('/actuate', [UtilityController::class, 'actuate'])->middleware(['auth', 'verified'])->name('dashboard.actuate')->can('admin');
+
 Route::get('/', [RenderController::class, 'show_home'])->name('home');
 Route::get('/preview', [RenderController::class, 'show_preview'])->name('preview');
 Route::get('/map', [RenderController::class, 'show_map'])->name('map');
 Route::get('/oldmap', [RenderController::class, 'show_old_map'])->name('oldmap');
 //Route::get('/dashboard', [RenderController::class, 'show_dashboard'])->name('dashboard');
 Route::get('/dashboard', [RenderController::class, 'show_dashboard'])->name('dashboard');
+Route::get('/verifysku', [RenderController::class, 'verify_sku'])->name('verify.sku');
 /* Users */
 
 Route::get('/users', [UserController::class, 'index'])->middleware(['auth', 'verified'])->name('users.index')->can('admin');

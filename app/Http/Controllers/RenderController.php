@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Traits\PulseTemplates;
 use App\Models\Visit;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
@@ -11,6 +12,8 @@ use Illuminate\Support\Facades\Storage;
 
 class RenderController extends Controller
 {
+    use PulseTemplates;
+
     public function show_home(Request $request)
     {
         return view('home');
@@ -27,14 +30,13 @@ class RenderController extends Controller
         // default screen
         // image manipulation
         
-        $query_fetch = $request->boolean('fetch');
         $query_source = $request->query('source',null);
         $query_sku = strtoupper($request->query('sku', null));
         $request_ip = $request->ip();
         if (($query_sku) or (config('app.c2_preview_env') == 'local'))
         {
             $result = Visit::Create(['request_ip' => $request_ip, 'source' => $query_source, 'sku' => $query_sku]);
-            return view('preview',['query_sku' => $query_sku, 'query_fetch' => $query_fetch, 'query_source' => $query_source]);
+            return view('preview',['query_sku' => $query_sku, 'query_source' => $query_source]);
         }
         else
         {
@@ -64,4 +66,10 @@ class RenderController extends Controller
             return redirect(Route('home'));
         }
     }
+
+    public function verify_sku()
+    {
+        $this->verify_c2_template('C2VFR0343');
+    }
+
 }

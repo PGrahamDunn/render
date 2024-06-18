@@ -6,7 +6,7 @@ use Livewire\Component;
 
 class Home extends Component
 {
-    public $sku = 'C2PNL1068';
+    public $sku = 'C2RDM0241';
     public $source = 'faire';
 
     public function render()
