@@ -241,20 +241,29 @@
 
     <script>
         function copyToClipboard(id) {
-            var copy_field = document.getElementById(id);
-            copy_field.select();
-            //document.execCommand('copy');
-            navigator.clipboard.writeText(copy_field.value);
-            alert('Personilization copied to clipboard.');
+            try {
+                var copy_field = document.getElementById(id);
+                copy_field.select();
+                //document.execCommand('copy');
+                navigator.clipboard.writeText(copy_field.value);
+                alert('Personilization copied to clipboard.');
+            } catch (err) {
+                alert(err.message);
+            }
         }
     </script>
 
     <script>
         function copyToClipboardByID() {
-            var coordinatesField = document.getElementById('copy_customization');
-            coordinatesField.select();
-            document.execCommand('copy');
-            alert('Personilization copied to clipboard.');
+            try {
+
+                var coordinatesField = document.getElementById('copy_customization');
+                coordinatesField.select();
+                document.execCommand('copy');
+                alert('Personilization copied to clipboard.');
+            } catch (err) {
+                alert(err.message);
+            }
         }
     </script>
 </div>
