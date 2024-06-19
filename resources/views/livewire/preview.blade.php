@@ -138,6 +138,7 @@
                         </div>
                         <div class="flex justify-end">
                             <x-spark.button-main onclick="copyToClipboard('copy_customization')" class="mb-4" :disabled="!$copy_it_enabled">Copy</x-spark.button-main>
+                            <x-spark.button-main onclick="copyToClipboardByID('copy_customization')" class="mb-4" :disabled="!$copy_it_enabled">Copy-new</x-spark.button-main>
                         </div>
                     </div>
                     @if(strlen($customization_string) > 2)
@@ -244,6 +245,15 @@
             copy_field.select();
             //document.execCommand('copy');
             navigator.clipboard.writeText(copy_field.value);
+            alert('Personilization copied to clipboard.');
+        }
+    </script>
+
+    <script>
+        function copyToClipboardByID() {
+            var coordinatesField = document.getElementById('copy_customization');
+            coordinatesField.select();
+            document.execCommand('copy');
             alert('Personilization copied to clipboard.');
         }
     </script>

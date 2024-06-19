@@ -7,8 +7,9 @@
             <img src="squarelogo (1).png" alt="P Graham Dunn.">
         </div>
     </div>
-    <x-spark.input wire:model="sku" class="h-8"></x-spark.input>
+    
     <x-spark.devinfo>
+    <x-spark.input wire:model="sku" class="h-8"></x-spark.input>
         <x-spark.input wire:model="source" class="h-8" value="{{ $source }}"></x-spark.input>
         <ul>
             <li><a href="http://127.0.0.1:8000" class="m-2 font-bold text-gray-700 hover:underline hover:text-blue-700">base url</a></li>
@@ -16,13 +17,11 @@
             <li><a href="http://127.0.0.1:8000/preview/?source={{ $source }}" class="m-2 font-bold text-gray-700 hover:underline hover:text-blue-700">source</a></li>
             <li><a href="http://127.0.0.1:8000/preview/?sku={{ $sku }}&source={{ $source }}" class="m-2 font-bold text-gray-700 hover:underline hover:text-blue-700">sku source</a></li>
             <li><a href="http://127.0.0.1:8000/preview/?sku={{ $sku }}" class="m-2 font-bold text-gray-700 hover:underline hover:text-blue-700">sku</a></li>
-            <a href="http://127.0.0.1:8000/dashboard?dashboard_key=ZDTXRVK">Dashboard</a>
+            <li><a href="http://127.0.0.1:8000/dashboard?dashboard_key=ZDTXRVK" class="m-2 font-bold text-gray-700 hover:underline hover:text-blue-700">Dashboard</a></li>
 
         </ul>
-    </x-spark.devinfo>
-    <a href="{{ route('verify.sku') }}">
+        <a href="{{ route('verify.sku') }}">
         <x-spark.button-main>Verify SKU</x-spark.button-main>
     </a>
-
-
+    </x-spark.devinfo>
 </div>

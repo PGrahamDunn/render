@@ -91,9 +91,9 @@ zoomOutButton.addEventListener('click', function() {
 });
 
 const searchToggleButton = document.getElementById('searchToggleButton');
-//const searchBox = document.getElementById('searchBox');
+const searchBox = document.getElementById('searchBox');
 const searchCityButton = document.getElementById('searchCityButton');
-/*
+
 searchToggleButton.addEventListener('click', () => {
     if (searchBox.style.display === 'none' || searchBox.style.display === '') {
         searchBox.style.display = 'flex';
@@ -101,7 +101,7 @@ searchToggleButton.addEventListener('click', () => {
         searchBox.style.display = 'none';
     }
 });
-*/
+
 searchCityButton.addEventListener('click', function() {
     const input = searchInput.value.trim();
     const parts = input.split(',');
