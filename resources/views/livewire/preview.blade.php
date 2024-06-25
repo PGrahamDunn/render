@@ -114,7 +114,7 @@
                             <span>.png</span>
                         </div>
                         <div class="space-x-2">
-                            {{--<x-spark.button-main onclick="copyImgToClipboard('/storage/C2/{{ $template_name }}/{{ $local_file_name }}.png')" :disabled="!$download_it_enabled">Clipboard</x-spark.button-main>--}}
+                            <x-spark.button-main onclick="copyImgToClipboard('/storage/C2/{{ $template_name }}/{{ $local_file_name }}.png')" :disabled="!$download_it_enabled">Clipboard</x-spark.button-main>
                             <x-spark.button-main wire:click="download_it" :disabled="!$download_it_enabled">Download</x-spark.button-main>
                         </div>
                     </div>
@@ -220,51 +220,5 @@
             @endif
         </div>
     </div>
-    <script>
-        async function copyImgToClipboard(imgUrl) {
-            try {
-                const data = await fetch(imgUrl);
-                const blob = await data.blob();
-                await navigator.clipboard.write([
-                    new ClipboardItem({
-                        [blob.type]: blob,
-                    }),
-                ]);
-                alert('Image copied to clipboard.');
-                //console.log('Image copied.');
-            } catch (err) {
-                alert('Image failed to copy.');
-                //console.error(err.name, err.message);
-            }
-        }
-    </script>
 
-    <script>
-        function copyToClipboard(id) {
-            try {
-                var copy_field = document.getElementById(id);
-                copy_field.select();
-                //document.execCommand('copy');
-                navigator.clipboard.writeText(copy_field.value);
-                alert('Personilization copied to clipboard.');
-            } catch (err) {
-                alert(err.message);
-            }
-        }
-    </script>
-
-    <script>
-        function copyToClipboardByID(id) {
-            try {
-
-                var copy_field = document.getElementById(id);
-                copy_field.select();
-                document.execCommand('copy');
-                alert(copy_field.value);
-                alert('Personilization copied to clipboard.');
-            } catch (err) {
-                alert(err.message);
-            }
-        }
-    </script>
 </div>
