@@ -95,13 +95,11 @@ const searchBox = document.getElementById('searchBox');
 const searchCityButton = document.getElementById('searchCityButton');
 
 searchToggleButton.addEventListener('click', () => {
-    alert('here 1');
     if (searchBox.style.display === 'none' || searchBox.style.display === '') {
         searchBox.style.display = 'flex';
     } else {
         searchBox.style.display = 'none';
     }
-    alert('here 2');
 });
 
 searchCityButton.addEventListener('click', function() {
