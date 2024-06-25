@@ -126,7 +126,7 @@
                     <div class="mt-4"><span class="pl-3 font-bold text-lg">Copy.</span><span class="pl-8 text-sm">Copy personalizations for the {{ strtoupper($query_source) }} order form.</span></div>
                     <div class="ml-14 flex justify-between items-center space-x-3">
                         <div class="flex items-center space-x-6">
-                            <input hidden type="text" id="copy_customization" name="copy_customization" value="{{$customization_string}}">
+                            <input  style="display: none;" type="text" id="copy_customization" name="copy_customization" value="{{$customization_string}}">
                             @if(strtolower($query_source) == 'zoey')
                             <div>Map Coordinates</div>
                             <x-spark.input id="zoey_elements" name="zoey_elements" type="text" :disabled="!$copy_it_enabled" class="h-8" />
@@ -254,12 +254,13 @@
     </script>
 
     <script>
-        function copyToClipboardByID() {
+        function copyToClipboardByID(id) {
             try {
 
-                var coordinatesField = document.getElementById('copy_customization');
-                coordinatesField.select();
+                var copy_field = document.getElementById(id);
+                copy_field.select();
                 document.execCommand('copy');
+                alert(copy_field.value);
                 alert('Personilization copied to clipboard.');
             } catch (err) {
                 alert(err.message);
