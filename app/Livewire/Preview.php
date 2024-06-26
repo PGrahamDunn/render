@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\Attributes\Session;
+use Livewire\Attributes\Js;
+
 use Illuminate\Support\Str;
 use Illuminate\Support\Arr;
 
@@ -111,6 +113,23 @@ class Preview extends Component
                 $this->preview_valid = false;
             }
         }
+    }
+
+    #[Js] 
+    public function copyTo()
+    {
+        return <<<'JS'
+        alert('here - copyTo');
+        try {
+            var copy_field = document.getElementById('copy_customization');
+            copy_field.select();
+            document.execCommand('copy');
+            alert(copy_field.value);
+            alert('Personilization copied to clipboard.');
+            } catch (err) {
+            alert(err.message);
+            }
+        JS;
     }
 
     public function reset_variables()

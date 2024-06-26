@@ -114,7 +114,7 @@
                             <span>.png</span>
                         </div>
                         <div class="space-x-2">
-                            <x-spark.button-main onclick="copyImgToClipboard('/storage/C2/{{ $template_name }}/{{ $local_file_name }}.png')" :disabled="!$download_it_enabled">Clipboard</x-spark.button-main>
+                            {{--<x-spark.button-main onclick="copyImgToClipboard('/storage/C2/{{ $template_name }}/{{ $local_file_name }}.png')" :disabled="!$download_it_enabled">Clipboard</x-spark.button-main>--}}
                             <x-spark.button-main wire:click="download_it" :disabled="!$download_it_enabled">Download</x-spark.button-main>
                         </div>
                     </div>
@@ -126,7 +126,7 @@
                     <div class="mt-4"><span class="pl-3 font-bold text-lg">Copy.</span><span class="pl-8 text-sm">Copy personalizations for the {{ strtoupper($query_source) }} order form.</span></div>
                     <div class="ml-14 flex justify-between items-center space-x-3">
                         <div class="flex items-center space-x-6">
-                            <input  style="display: none;" type="text" id="copy_customization" name="copy_customization" value="{{$customization_string}}">
+                            <input type="text" id="copy_customization" name="copy_customization" value="{{$customization_string}}">
                             @if(strtolower($query_source) == 'zoey')
                             <div>Map Coordinates</div>
                             <x-spark.input id="zoey_elements" name="zoey_elements" type="text" :disabled="!$copy_it_enabled" class="h-8" />
@@ -138,6 +138,7 @@
                         </div>
                         <div class="flex justify-end">
                             <x-spark.button-main onclick="copyToClipboard('copy_customization')" class="mb-4" :disabled="!$copy_it_enabled">Copy</x-spark.button-main>
+                            <x-spark.button-main wire:click="copyTo" class="mb-4" :disabled="!$copy_it_enabled">Copy</x-spark.button-main>
                             <x-spark.button-main onclick="copyToClipboardByID('copy_customization')" class="mb-4" :disabled="!$copy_it_enabled">Copy-new</x-spark.button-main>
                         </div>
                     </div>
