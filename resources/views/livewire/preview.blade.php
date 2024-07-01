@@ -126,20 +126,20 @@
                     <div class="mt-4"><span class="pl-3 font-bold text-lg">Copy.</span><span class="pl-8 text-sm">Copy personalizations for the {{ strtoupper($query_source) }} order form.</span></div>
                     <div class="ml-14 flex justify-between items-center space-x-3">
                         <div class="flex items-center space-x-6">
-                            <input type="text" id="copy_customization" name="copy_customization" value="{{$customization_string}}">
+                            <x-spark.input type="text" id="copy_customization" name="copy_customization" value="{{$customization_string}}" class="h-8"/>
                             @if(strtolower($query_source) == 'zoey')
                             <div>Map Coordinates</div>
                             <x-spark.input id="zoey_elements" name="zoey_elements" type="text" :disabled="!$copy_it_enabled" class="h-8" />
                             @elseif(strtolower($query_source) == 'faire')
-                            <div id="faire_cust_string">{{ $customization_string }}</div>
+                            <div id="faire_cust_string"></div>
                             @else
                             <div class="ml-14"></div>
                             @endif
                         </div>
                         <div class="flex justify-end">
-                            <x-spark.button-main onclick="copyToClipboard('copy_customization')" class="mb-4" :disabled="!$copy_it_enabled">Copy</x-spark.button-main>
-                            <x-spark.button-main wire:click="copyTo" class="mb-4" :disabled="!$copy_it_enabled">Copy</x-spark.button-main>
-                            <x-spark.button-main onclick="copyToClipboardByID('copy_customization')" class="mb-4" :disabled="!$copy_it_enabled">Copy-new</x-spark.button-main>
+                        {{--<x-spark.button-main onclick="copyToClipboard('copy_customization')" class="mb-4" :disabled="!$copy_it_enabled">Copy</x-spark.button-main>
+                            <x-spark.button-main wire:click="copyTo" class="mb-4" :disabled="!$copy_it_enabled">Copy</x-spark.button-main>--}}
+                            <x-spark.button-main onclick="copyToClipboardByID('copy_customization')" class="mb-4" :disabled="!$copy_it_enabled">Copy</x-spark.button-main>
                         </div>
                     </div>
                     @if(strlen($customization_string) > 2)

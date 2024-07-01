@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('visits', function (Blueprint $table) {
             $table->id();
             $table->string('request_ip')->nullable();
+            $table->string('request_name')->nullable();
             $table->string('source')->nullable();
             $table->string('sku')->nullable();
             $table->timestamps();

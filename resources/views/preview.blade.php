@@ -1,7 +1,7 @@
 <x-web-layout>
   <div class="p-2 m-2">
     @livewire('preview',['query_sku' => $query_sku, 'query_source' => $query_source])
-    
+
     <script>
         async function copyImgToClipboard(imgUrl) {
             try {
@@ -38,11 +38,9 @@
     <script>
         function copyToClipboardByID(id) {
             try {
-
                 var copy_field = document.getElementById(id);
                 copy_field.select();
                 document.execCommand('copy');
-                alert(copy_field.value);
                 alert('Personilization copied to clipboard.');
             } catch (err) {
                 alert(err.message);

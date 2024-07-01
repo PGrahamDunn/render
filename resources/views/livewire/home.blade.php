@@ -17,11 +17,8 @@
             <li><a href="http://127.0.0.1:8000/preview/?source={{ $source }}" class="m-2 font-bold text-gray-700 hover:underline hover:text-blue-700">source</a></li>
             <li><a href="http://127.0.0.1:8000/preview/?sku={{ $sku }}&source={{ $source }}" class="m-2 font-bold text-gray-700 hover:underline hover:text-blue-700">sku source</a></li>
             <li><a href="http://127.0.0.1:8000/preview/?sku={{ $sku }}" class="m-2 font-bold text-gray-700 hover:underline hover:text-blue-700">sku</a></li>
-            <li><a href="http://127.0.0.1:8000/dashboard?dashboard_key=ZDTXRVK" class="m-2 font-bold text-gray-700 hover:underline hover:text-blue-700">Dashboard</a></li>
+            <li><a href="http://127.0.0.1:8000/dashboard" class="m-2 font-bold text-gray-700 hover:underline hover:text-blue-700">Dashboard</a></li>
 
         </ul>
-        <a href="{{ route('verify.sku') }}">
-        <x-spark.button-main>Verify SKU</x-spark.button-main>
-    </a>
     </x-spark.devinfo>
 </div>
