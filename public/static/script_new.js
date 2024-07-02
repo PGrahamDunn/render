@@ -84,7 +84,7 @@ zoomInButton.addEventListener('click', function() {
     const currentZoom = map.getZoom();
     map.setZoom(currentZoom + 0.25);
 });
-
+ 
 zoomOutButton.addEventListener('click', function() {
     const currentZoom = map.getZoom();
     map.setZoom(currentZoom - 0.25);

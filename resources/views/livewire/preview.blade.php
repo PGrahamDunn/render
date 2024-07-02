@@ -68,7 +68,7 @@
                     <div class="ml-14 flex items-center space-x-3 {{ $element_map_coordinates_enabled ? 'block' : 'hidden' }}">
                         <x-spark.label for="element_map_coordinates" value="Map Coordinates" />
                         <x-spark.input wire:model="element_map_coordinates" id="element_map_coordinates" name="element_map_coordinates" value="{{ $element_map_coordinates }}" type="text" :disabled="!$personalize_it_enabled" class="h-8" />
-                        <a href="http://127.0.0.1:8000/map" target="_blank"><x-spark.button-main class="h-8">Get coordinates</x-spark.button-main></a>
+                        <a href="{{ route('map') }}" target="_blank"><x-spark.button-main class="h-8">Get coordinates</x-spark.button-main></a>
                     </div>
                     <!-- Line mascot -->
                     <div class="ml-14 flex items-center space-x-3 {{ ($element_mascot_enabled and !$element_map_coordinates_enabled) ? 'block' : 'hidden' }}">
@@ -121,23 +121,15 @@
                 </div>
                 @endif
                 <!-- copy it -->
-                @if ($query_source)
+                @if (((strtolower($query_source) == 'zoey') and ($element_map_coordinates_enabled)) or (strtolower($query_source) == 'faire'))
                 <div class="space-y-3">
                     <div class="mt-4"><span class="pl-3 font-bold text-lg">Copy.</span><span class="pl-8 text-sm">Copy personalizations for the {{ strtoupper($query_source) }} order form.</span></div>
                     <div class="ml-14 flex justify-between items-center space-x-3">
                         <div class="flex items-center space-x-6">
-                            <x-spark.input type="text" id="copy_customization" name="copy_customization" value="{{$customization_string}}" class="h-8"/>
-                            @if(strtolower($query_source) == 'zoey')
-                            <div>Map Coordinates</div>
-                            <x-spark.input id="zoey_elements" name="zoey_elements" type="text" :disabled="!$copy_it_enabled" class="h-8" />
-                            @elseif(strtolower($query_source) == 'faire')
-                            <div id="faire_cust_string"></div>
-                            @else
-                            <div class="ml-14"></div>
-                            @endif
+                            <x-spark.input type="text" id="copy_customization" name="copy_customization" value="{{ $customization_string }}" class="h-8" />
                         </div>
                         <div class="flex justify-end">
-                        {{--<x-spark.button-main onclick="copyToClipboard('copy_customization')" class="mb-4" :disabled="!$copy_it_enabled">Copy</x-spark.button-main>
+                            {{--<x-spark.button-main onclick="copyToClipboard('copy_customization')" class="mb-4" :disabled="!$copy_it_enabled">Copy</x-spark.button-main>
                             <x-spark.button-main wire:click="copyTo" class="mb-4" :disabled="!$copy_it_enabled">Copy</x-spark.button-main>--}}
                             <x-spark.button-main onclick="copyToClipboardByID('copy_customization')" class="mb-4" :disabled="!$copy_it_enabled">Copy</x-spark.button-main>
                         </div>

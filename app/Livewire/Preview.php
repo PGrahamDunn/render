@@ -41,7 +41,7 @@ class Preview extends Component
     public $template_name;
     #[Session]
     public $local_template;
-/*
+    /*
     #[Session]
     public $template_code;
     #[Session]
@@ -101,12 +101,9 @@ class Preview extends Component
         $this->reset_variables();
         if (strlen($this->query_sku > 2)) {
             $this->template_name = strtoupper(trim($this->query_sku));
-            if($this->verify_c2_template($this->template_name))
-            {
+            if ($this->verify_c2_template($this->template_name)) {
                 $this->select_it();
-            }
-            else
-            {
+            } else {
                 $this->status_message = "Invalid SKU.";
                 $this->message_type = 'error';
                 $this->show_message = true;
@@ -115,7 +112,7 @@ class Preview extends Component
         }
     }
 
-    #[Js] 
+    #[Js]
     public function copyTo()
     {
         return <<<'JS'
@@ -189,8 +186,7 @@ class Preview extends Component
 
     public function select_it()
     {
-        if ($this->verify_c2_template($this->template_name))
-        {
+        if ($this->verify_c2_template($this->template_name)) {
             $this->local_template = C2Item::where('name', $this->template_name)->first();
             $this->preview_valid = true;
             $this->status_message = '';
@@ -200,38 +196,37 @@ class Preview extends Component
                 $elements_result = $this->sql_get_template();
             } else {
                 */
-                //$elements_result = $this->web_get_template();
-                //$elements_result = $this->local_get_template();
+            //$elements_result = $this->web_get_template();
+            //$elements_result = $this->local_get_template();
             //}
-                foreach ($this->local_template->c2elements as $c2element) 
-                {
-                    if (Str::lower($c2element->name) == 'mascot') {
-                        $this->element_mascot_enabled = true;
-                        /*
+            foreach ($this->local_template->c2elements as $c2element) {
+                if (Str::lower($c2element->name) == 'mascot') {
+                    $this->element_mascot_enabled = true;
+                    /*
                         if (config('app.c2_preview_env') == 'local') {
                             $designs_result = $this->sql_get_mascots();
                         } else {
                             */
-                            //$designs_result = $this->web_get_mascots();
-                        //}
-                    } elseif (Str::lower($c2element->name) == 'line 1') {
-                        $this->element_line_1_enabled = true;
-                        $this->element_line_1_placeholder = $c2element->default_text;
-                    } elseif (Str::lower($c2element->name) == 'line 2') {
-                        $this->element_line_2_enabled = true;
-                        $this->element_line_2_placeholder = $c2element->default_text;
-                    } elseif (Str::lower($c2element->name) == 'line 3') {
-                        $this->element_line_3_enabled = true;
-                        $this->element_line_3_placeholder = $c2element->default_text;
-                    } elseif (Str::lower($c2element->name) == 'map coordinates') {
-                        $this->element_map_coordinates_enabled = true;
-                    } else {
-                        $this->status_message = 'template element ' . $c2element->name . ' is undefined.';
-                        $this->message_type = 'error';
-                        $this->show_message = true;
-                        $this->preview_valid = false;
-                    }
+                    //$designs_result = $this->web_get_mascots();
+                    //}
+                } elseif (Str::lower($c2element->name) == 'line 1') {
+                    $this->element_line_1_enabled = true;
+                    $this->element_line_1_placeholder = $c2element->default_text;
+                } elseif (Str::lower($c2element->name) == 'line 2') {
+                    $this->element_line_2_enabled = true;
+                    $this->element_line_2_placeholder = $c2element->default_text;
+                } elseif (Str::lower($c2element->name) == 'line 3') {
+                    $this->element_line_3_enabled = true;
+                    $this->element_line_3_placeholder = $c2element->default_text;
+                } elseif (Str::lower($c2element->name) == 'map coordinates') {
+                    $this->element_map_coordinates_enabled = true;
+                } else {
+                    $this->status_message = 'template element ' . $c2element->name . ' is undefined.';
+                    $this->message_type = 'error';
+                    $this->show_message = true;
+                    $this->preview_valid = false;
                 }
+            }
             if ($this->preview_valid) {
                 if (count($this->local_template->c2elements) == 0) {
                     $this->render_it_enabled = true;
@@ -241,9 +236,7 @@ class Preview extends Component
                     $this->select_it_enabled = false;
                 }
             }
-        }
-        else
-        {
+        } else {
             $this->status_message = "Invalid SKU.";
             $this->message_type = 'error';
             $this->show_message = true;
@@ -363,15 +356,13 @@ class Preview extends Component
             } elseif (strtolower($c2element->name) == 'map coordinates') {
                 $this->personalization_string = $this->personalization_string . '&Personalizations[' . $index . '].ElementName=' . str_replace('&', '%26', $c2element->name) . '&Personalizations[' . $index . '].Text=' . str_replace('&', '%26', trim($this->element_map_coordinates)) . '&Personalizations[' . $index . '].IsText=true';
             } elseif (strtolower($c2element->name) == 'mascot') {
-                if($this->element_map_coordinates_enabled)
-                {
+                if ($this->element_map_coordinates_enabled) {
                     $this->personalization_string =  $this->personalization_string . '&Personalizations[' . $index . '].ElementName=' . str_replace('&', '%26', $c2element->name) . '&Personalizations[' . $index . '].Text=' . '' . '&Personalizations[' . $index . '].IsText=false';
-                }
-                elseif (($this->element_mascot == '-1') or (strlen($this->element_mascot) == 0)) {
+                } elseif (($this->element_mascot == '-1') or (strlen($this->element_mascot) == 0)) {
                     $this->status_message = 'No mascot selected.';
                     $this->message_type = 'error';
                     $this->show_message = true;
-                    $this->preview_valid = false;        
+                    $this->preview_valid = false;
                 } else {
                     $this->personalization_string =  $this->personalization_string . '&Personalizations[' . $index . '].ElementName=' . str_replace('&', '%26', $c2element->name) . '&Personalizations[' . $index . '].Text=' . str_replace('&', '%26', trim($this->element_mascot)) . '&Personalizations[' . $index . '].IsText=false';
                 }
@@ -413,8 +404,8 @@ class Preview extends Component
                     $customization_array = Arr::add($customization_array, $c2element->name, $this->element_mascot);
                 }
             }
+            $this->customization_string = json_encode($customization_array);
         }
-        $this->customization_string = json_encode($customization_array);
         // remove final | (seperator)
         /*
         if (strlen($this->customization_string) > 2)
@@ -434,8 +425,7 @@ class Preview extends Component
         $this->local_file_name =  substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 7);
         //Storage::disk('local')->put('/public/C2/' . $this->template_name . '/' . $this->local_file_name . '.png', $response_order->body());
         Storage::disk('local')->put('/public/C2/' . $this->local_file_name . '.png', $response_order->body());
-        if (filesize(storage_path("/app/public/C2/$this->local_file_name" . '.png')) < 200)
-        {
+        if (filesize(storage_path("/app/public/C2/$this->local_file_name" . '.png')) < 200) {
             $this->render_is_available = false;
             //Storage::disk('local')->copy('NoRender.png', '/public/C2/' . $this->local_file_name . '.png');
         }
@@ -443,8 +433,7 @@ class Preview extends Component
 
         if ($this->preview_valid) {
             $this->download_it_enabled = true;
-            if ($this->query_source)
-            {
+            if ($this->query_source) {
                 $this->copy_it_enabled = true;
             }
             $this->submit_it_enabled = true;
@@ -524,20 +513,17 @@ class Preview extends Component
     public function submit_it()
     {
         // get batch id 
-        $counter = Counter::where('prefix','REND')->first();
+        $counter = Counter::where('prefix', 'REND')->first();
         $counter->increment('count_number');
-        $this->pulse_batch_id = $counter->prefix . str_pad($counter->count_number, 6, "0",STR_PAD_LEFT);
+        $this->pulse_batch_id = $counter->prefix . str_pad($counter->count_number, 6, "0", STR_PAD_LEFT);
         // order submit
         $code = $this->local_template->code;
         $response = Http::withHeaders(['apiKey' => config('app.pulse_key')])->post(config('app.pulse_endpoint') . "/api/Orders/Submit?OrderType=print-template&ProductCode=Product1&TemplateCode=$code&Job=$this->pulse_batch_id&$this->personalization_string");
-        if ($response->status() == 200)
-        {
+        if ($response->status() == 200) {
             $status_message = 'Order submitted to Pulse.';
             $show_message = true;
             $message_type = 'success';
-        }
-        else
-        {
+        } else {
             $status_message = 'Error submitted to Pulse. Status code = ' . $response->status();
             $show_message = true;
             $message_type = 'error';

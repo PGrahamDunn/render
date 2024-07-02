@@ -78,8 +78,9 @@ class RenderController extends Controller
         $this->initalize_c2_2();
         $this->initalize_c2_3();
         dump(now());
+        return view('dashboard');
     }
-    
+
     public function initalize_c2_1()
     {
         $this->verify_c2_template('C2COA2046');
