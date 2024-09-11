@@ -52,22 +52,22 @@
                     <!-- Line 1 -->
                     <div class="ml-14 flex items-center space-x-3 {{ $element_line_1_enabled ? 'block' : 'hidden' }}">
                         <x-spark.label for="element_line_1" value="Line 1" />
-                        <x-spark.input wire:model="element_line_1" id="element_line_1" name="element_line_1" value="{{ $element_line_1 }}" type="text" :disabled="!$personalize_it_enabled" placeholder="{{ $element_line_1_placeholder }}" class="h-8" />
+                        <x-spark.input wire:model="element_line_1" id="element_line_1" name="element_line_1" value="{{ $element_line_1 }}" type="text" :disabled="!$personalize_it_enabled" placeholder="{{ $element_line_1_placeholder }}" class="h-8 placeholder-zinc-400" />
                     </div>
                     <!-- Line 2 -->
                     <div class="ml-14 flex items-center space-x-3 {{ $element_line_2_enabled ? 'block' : 'hidden' }}">
                         <x-spark.label for="element_line_2" value="Line 2" />
-                        <x-spark.input wire:model="element_line_2" id="element_line_2" name="element_line_2" value="{{ $element_line_2 }}" type="text" :disabled="!$personalize_it_enabled" placeholder="{{ $element_line_2_placeholder }}" class="h-8" />
+                        <x-spark.input wire:model="element_line_2" id="element_line_2" name="element_line_2" value="{{ $element_line_2 }}" type="text" :disabled="!$personalize_it_enabled" placeholder="{{ $element_line_2_placeholder }}" class="h-8 placeholder-zinc-400" />
                     </div>
                     <!-- Line 3 -->
                     <div class="ml-14 flex items-center space-x-3 {{ $element_line_3_enabled ? 'block' : 'hidden' }}">
                         <x-spark.label for="element_line_3" value="Line 3" />
-                        <x-spark.input wire:model="element_line_3" id="element_line_3" name="element_line_3" value="{{ $element_line_3 }}" type="text" :disabled="!$personalize_it_enabled" placeholder="{{ $element_line_3_placeholder }}" class="h-8" />
+                        <x-spark.input wire:model="element_line_3" id="element_line_3" name="element_line_3" value="{{ $element_line_3 }}" type="text" :disabled="!$personalize_it_enabled" placeholder="{{ $element_line_3_placeholder }}" class="h-8 placeholder-zinc-400" />
                     </div>
                     <!-- Line map coordinates -->
                     <div class="ml-14 flex items-center space-x-3 {{ $element_map_coordinates_enabled ? 'block' : 'hidden' }}">
                         <x-spark.label for="element_map_coordinates" value="Map Coordinates" />
-                        <x-spark.input wire:model="element_map_coordinates" id="element_map_coordinates" name="element_map_coordinates" value="{{ $element_map_coordinates }}" type="text" :disabled="!$personalize_it_enabled" class="h-8" />
+                        <x-spark.input wire:model="element_map_coordinates" id="element_map_coordinates" name="element_map_coordinates" value="{{ $element_map_coordinates }}" type="text" :disabled="!$personalize_it_enabled" class="h-8 placeholder-zinc-400" />
                         <a href="{{ route('map') }}" target="_blank"><x-spark.button-main class="h-8">Get coordinates</x-spark.button-main></a>
                     </div>
                     <!-- Line mascot -->
@@ -121,7 +121,7 @@
                 </div>
                 @endif
                 <!-- copy it -->
-                @if (((strtolower($query_source) == 'zoey') and ($element_map_coordinates_enabled)) or (strtolower($query_source) == 'faire'))
+                @if (((strtolower($query_source) == 'zoey') and ($element_map_coordinates_enabled)) or (strtolower($query_source) == 'faire') or (strtolower($query_source) == 'pgd'))
                 <div class="space-y-3">
                     <div class="mt-4"><span class="pl-3 font-bold text-lg">Copy.</span><span class="pl-8 text-sm">Copy personalizations for the {{ strtoupper($query_source) }} order form.</span></div>
                     <div class="ml-14 flex justify-between items-center space-x-3">

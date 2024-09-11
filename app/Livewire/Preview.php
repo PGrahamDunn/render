@@ -3,8 +3,8 @@
 namespace App\Livewire;
 
 use App\Models\C2Item;
-use App\Models\Counter;
 use App\Models\Design;
+use App\Traits\Counters;
 use App\Traits\PulseTemplates;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
@@ -17,7 +17,7 @@ use Illuminate\Support\Arr;
 
 class Preview extends Component
 {
-    use PulseTemplates;
+    use Counters, PulseTemplates;
 
     public $query_sku;
     public $query_source;
@@ -41,14 +41,6 @@ class Preview extends Component
     public $template_name;
     #[Session]
     public $local_template;
-    /*
-    #[Session]
-    public $template_code;
-    #[Session]
-    public $template_elements;
-    #[Session]
-    public $mascots;
-*/
 
     #[Session]
     public $element_line_1;
@@ -139,8 +131,6 @@ class Preview extends Component
         $this->copy_it_enabled = false;
         $this->submit_it_enabled = false;
         $this->template_name = '';
-        //$this->template_code = '';
-        //$this->template_elements = null;
         $this->element_line_1 = '';
         $this->element_line_1_placeholder = '';
         $this->element_line_1_enabled = false;
@@ -156,7 +146,6 @@ class Preview extends Component
         $this->element_map_coordinates_enabled = false;
         $this->personalization_string = '';
         $this->customization_string = '';
-        //$this->mascots = null;
         $this->status_message = '';
         $this->show_message = false;
         $this->message_type = '';
@@ -168,22 +157,6 @@ class Preview extends Component
         $this->pulse_batch_id = '';
     }
 
-    public function choose_it()
-    {
-        /*
-        $this->select_it();
-        if ($this->preview_valid) {
-            if (count($this->template_elements) == 0) {
-                $this->render_it_enabled = true;
-                $this->choose_it_enabled = false;
-            } else {
-                $this->personalize_it_enabled = true;
-                $this->choose_it_enabled = false;
-            }
-        }
-            */
-    }
-
     public function select_it()
     {
         if ($this->verify_c2_template($this->template_name)) {
@@ -191,22 +164,12 @@ class Preview extends Component
             $this->preview_valid = true;
             $this->status_message = '';
             $this->show_message = false;
-            /*
-            if (config('app.c2_preview_env') == 'local') {
-                $elements_result = $this->sql_get_template();
-            } else {
-                */
             //$elements_result = $this->web_get_template();
             //$elements_result = $this->local_get_template();
             //}
             foreach ($this->local_template->c2elements as $c2element) {
                 if (Str::lower($c2element->name) == 'mascot') {
                     $this->element_mascot_enabled = true;
-                    /*
-                        if (config('app.c2_preview_env') == 'local') {
-                            $designs_result = $this->sql_get_mascots();
-                        } else {
-                            */
                     //$designs_result = $this->web_get_mascots();
                     //}
                 } elseif (Str::lower($c2element->name) == 'line 1') {
@@ -265,77 +228,8 @@ class Preview extends Component
         }
         return $result;
     }
-
-    public function web_get_template()
-    {
-        $result = true;
-        $template_response = Http::timeout(60)->withHeaders(['apiKey' => config('app.pulse_key')])->get(config('app.pulse_endpoint') . '/api/Templates/GetTemplateInfo/' . $this->template_name);
-        $pulse_template = json_decode($template_response->body());
-        if ($pulse_template) {
-            $this->template_code = $pulse_template->Code;
-            $collection = collect([]);
-            foreach ($pulse_template->TemplateElements as $template_element) {
-                $collection = $collection->concat([$template_element->ElementName]);
-            }
-            $this->template_elements = $collection;
-        } else {
-            $this->status_message = "Invalid SKU.";
-            $this->message_type = 'error';
-            $this->show_message = true;
-            $this->preview_valid = false;
-            $result = false;
-        }
-        return $result;
-    }
-
-    public function local_get_template()
-    {
-        $result = true;
-        $pulse_template = C2Item::where('name', $this->template_name)->first();
-        if ($pulse_template) {
-            $this->template_code = $pulse_template->Code;
-            $collection = collect([]);
-            foreach ($pulse_template->C2Elements as $c2element) {
-                $collection = $collection->concat([$c2element->name]);
-            }
-            $this->template_elements = $collection;
-        } else {
-            $this->status_message = "Invalid SKU.";
-            $this->message_type = 'error';
-            $this->show_message = true;
-            $this->preview_valid = false;
-            $result = false;
-        }
-        return $result;
-    }
     */
-    /*
-    public function sql_get_mascots()
-    {
-        $this->mascots = DB::connection('sqlsrv')->table('designs')->select('designid', 'name')->where('Name', 'like', '%' . $this->template_name . '%')->get();
-    }
 
-    public function web_get_mascots()
-    {
-        $response = Http::timeout(60)->withHeaders(['apiKey' => config('app.pulse_key')])->get(config('app.pulse_endpoint') . "/api/Designs/GetDesigns?template=$this->template_name");
-        $designs = json_decode($response->body());
-        $collection = collect([]);
-        foreach ($designs as $design) {
-            $collection = $collection->concat([$design->DesignName]);
-        }
-        $this->mascots = $collection;
-    }
-
-    public function local_get_mascots()
-    {
-        $designs = 
-        $collection = collect([]);
-        foreach ($designs as $design) {
-            $collection = $collection->concat([$design->DesignName]);
-        }
-        $this->mascots = $collection;
-    }
-    */
     public function personalize_it()
     {
         // generate personilication string
@@ -344,6 +238,7 @@ class Preview extends Component
         $this->status_message = '';
         $this->show_message = false;
         $this->preview_valid = true;
+        $this->render_is_set = false;
         $this->personalization_string = '';
         $index = 0;
         foreach ($this->local_template->c2elements as $c2element) {
@@ -388,31 +283,34 @@ class Preview extends Component
         } elseif (strtolower($this->query_source) == 'faire') {
             foreach ($this->local_template->c2elements as $c2element) {
                 if (strtolower($c2element->name) == 'line 1') {
-                    //$this->customization_string = $this->customization_string . $template_element . "=" . $this->element_line_1 . '|';
                     $customization_array = Arr::add($customization_array, $c2element->name, $this->element_line_1);
                 } elseif (strtolower($c2element->name) == 'line 2') {
-                    //$this->customization_string = $this->customization_string . $template_element . "=" . $this->element_line_2 . '|';
                     $customization_array = Arr::add($customization_array, $c2element->name, $this->element_line_2);
                 } elseif (strtolower($c2element->name) == 'line 3') {
-                    //$this->customization_string = $this->customization_string . $template_element . "=" . $this->element_line_3 . '|';
                     $customization_array = Arr::add($customization_array, $c2element->name, $this->element_line_3);
                 } elseif (strtolower($c2element->name) == 'map coordinates') {
-                    //$this->customization_string = $this->customization_string . $template_element . "=" . $this->element_map_coordinates . '|';
                     $customization_array = Arr::add($customization_array, $c2element->name, $this->element_map_coordinates);
                 } elseif (strtolower($c2element->name) == 'mascot') {
-                    //$this->customization_string = $this->customization_string . $template_element . "=" . $this->element_mascot . '|';
+                    $customization_array = Arr::add($customization_array, $c2element->name, $this->element_mascot);
+                }
+            }
+            $this->customization_string = json_encode($customization_array);
+        } elseif (strtolower($this->query_source) == 'pgd') {
+            foreach ($this->local_template->c2elements as $c2element) {
+                if (strtolower($c2element->name) == 'line 1') {
+                    $customization_array = Arr::add($customization_array, $c2element->name, $this->element_line_1);
+                } elseif (strtolower($c2element->name) == 'line 2') {
+                    $customization_array = Arr::add($customization_array, $c2element->name, $this->element_line_2);
+                } elseif (strtolower($c2element->name) == 'line 3') {
+                    $customization_array = Arr::add($customization_array, $c2element->name, $this->element_line_3);
+                } elseif (strtolower($c2element->name) == 'map coordinates') {
+                    $customization_array = Arr::add($customization_array, $c2element->name, $this->element_map_coordinates);
+                } elseif (strtolower($c2element->name) == 'mascot') {
                     $customization_array = Arr::add($customization_array, $c2element->name, $this->element_mascot);
                 }
             }
             $this->customization_string = json_encode($customization_array);
         }
-        // remove final | (seperator)
-        /*
-        if (strlen($this->customization_string) > 2)
-        {
-            $this->customization_string = substr($this->customization_string,0,strlen($this->customization_string)-1);
-        }
-        */
     }
 
     public function render_it()
@@ -513,9 +411,8 @@ class Preview extends Component
     public function submit_it()
     {
         // get batch id 
-        $counter = Counter::where('prefix', 'REND')->first();
-        $counter->increment('count_number');
-        $this->pulse_batch_id = $counter->prefix . str_pad($counter->count_number, 6, "0", STR_PAD_LEFT);
+        $counter = $this->increment_counter_prefix('Render');
+        $this->pulse_batch_id = $counter;
         // order submit
         $code = $this->local_template->code;
         $response = Http::withHeaders(['apiKey' => config('app.pulse_key')])->post(config('app.pulse_endpoint') . "/api/Orders/Submit?OrderType=print-template&ProductCode=Product1&TemplateCode=$code&Job=$this->pulse_batch_id&$this->personalization_string");

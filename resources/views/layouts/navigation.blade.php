@@ -1,4 +1,4 @@
-<div class="bg-gray-700 text-gray-100 w-64 space-y-6">
+<div class="bg-gray-700 text-gray-100 w-64 space-y-6 h-screen overflow-auto">
     <div class="flex flex-col">
         <div>
             <!-- logo -->

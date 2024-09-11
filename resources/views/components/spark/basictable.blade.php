@@ -26,7 +26,6 @@
                     </form>
                 </x-spark.tableactionvalue>
             </x-spark.tableaction>
-            </td>
         </tr>
         @endforeach
     </x-spark.tablebody>

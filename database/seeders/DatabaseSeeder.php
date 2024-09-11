@@ -9,10 +9,12 @@ use App\Models\Role;
 use App\Models\Version;
 use App\Models\Version_Type;
 use App\Models\VersionNote;
+use App\Traits\Counters;
 use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
+    use Counters;
     /**
      * Seed the application's database.
      */
@@ -27,17 +29,18 @@ class DatabaseSeeder extends Seeder
         User::truncate();
         Role::truncate();
         DB::table('role_user')->truncate();
-        Version::truncate();
-        DB::table('version_types')->truncate();
-        DB::table('version_notes')->truncate();
+        //Version::truncate();
+        //DB::table('version_types')->truncate();
+        //DB::table('version_notes')->truncate();
 
         $this->call([
             UserSeeder::class,
             RoleSeeder::class,
             Role_UserSeeder::class,
-            VersionSeeder::class,
-            VersionTypeSeeder::class,
-            VersionNoteSeeder::class
+            //VersionSeeder::class,
+            //VersionTypeSeeder::class,
+            //VersionNoteSeeder::class
         ]);   
+        $this->create_counter('Render','REND',200);
     }
 }
